@@ -1,0 +1,15 @@
+* {
+  padding: 0;
+  margin: 0;
+  user-select: none !important;
+  -webkit-user-drag: none !important;
+}
+
+body {
+  overflow: hidden !important;
+  background-color: #fff;
+}
+
+i.fas {
+  margin-right: 4px !important;
+}

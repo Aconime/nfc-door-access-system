@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>NFC Door Access System - Admin Panel</title>
+    
+    <!-- METADATA & INFO -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS LIBRARIES -->
+    <link rel="stylesheet" type="text/css" href="../node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="../lib/semantic/semantic.css">
+
+    <!-- CSS INCLUDES -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/classes.css">
+
+    <!-- JAVASCRIPT LIBRARIES -->
+    <script>window.$ = window.jQuery = require("jquery");</script>
+    <script defer src="../lib/semantic/semantic.js"></script>
+
+    <!-- JAVASCRIPT INCLUDES -->
+    <script defer src="js/ui.js"></script>
+    <script defer src="js/cardreg.js"></script>
+    <script defer src="js/doors.js"></script>
+  </head>
+  <body>
+    <div id="app-wrapper">
+      <div id="app-sidemenu" class="ui secondary vertical pointing menu">
+        <p class="ui left aligned horizontal divider" style="margin-left: 15px;">Main</p>
+        <a class="item" data-tab="dashboard">Dashboard</a>
+
+        <p class="ui left aligned horizontal divider" style="margin-left: 15px;">Actions</p>
+        <a class="item" data-tab="card-reg">Card Registration</a>
+
+        <p class="ui left aligned horizontal divider" style="margin-left: 15px;">Doors</p>
+        <a class="item" data-tab="all-doors">All Doors</a>
+        <a class="item" data-tab="doors-unav">Unavailable Doors</a>
+        <a class="item" data-tab="doors-brok">Broken Doors</a>
+        <a class="item" data-tab="door-lvl">Door Levels</a>
+
+        <p class="ui left aligned horizontal divider" style="margin-left: 15px;">Cards</p>
+        <a class="item" data-tab="all-cards">All Cards</a>
+        <a class="item" data-tab="cards-unav">Unavailable Cards</a>
+        <a class="item" data-tab="cards-brok">Broken Cards</a>
+        <a class="item" data-tab="cards-occu">Occupied Cards</a>
+        
+        <p class="ui left aligned horizontal divider" style="margin-left: 15px;">System</p>
+        <a class="item" data-tab="logs">System Logs</a>
+        <a class="item" data-tab="access-list">Access List</a>
+
+        <p class="ui left aligned horizontal divider" style="margin-left: 15px;">Account</p>
+        <a class="item" data-tab="sett">Settings</a>
+        <a class="item">Logout</a>
+      </div>
+
+      <div class="app-content ui right attached tab segment" data-tab="dashboard">
+        <div class="content-header">
+          <h3>DASHBOARD</h3>
+        </div>
+
+        <div class="ui icon input" style="float: right;">
+          <input type="text" placeholder="Search...">
+          <i class="search icon"></i>
+        </div>
+
+        <div id="dashboard-filter" class="ui tiny compact menu">
+          <a class="item active">
+            <i class="fas fa-th-list"></i>
+            All
+          </a>
+          <a class="item">
+            <i class="fas fa-user-check"></i>
+            Active
+          </a>
+          <a class="item">
+            <i class="fas fa-ban"></i>
+            Paused
+          </a>
+          <a class="item">
+            <i class="fas fa-calendar-times"></i>
+            Expired
+          </a>
+        </div>
+
+        <table class="ui celled table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email Address</th>
+              <th>Card UID</th>
+              <th>Allowed Access</th>
+              <th>Exp. Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="uid">Eugen Rupi</td>
+              <td data-label="uid">eugen.rupi@gmail.com</td>
+              <td data-label="uid">F1 5C FC CC</td>
+              <td data-label="door">A1, A2, A3, A4</td>
+              <td data-label="exp">N/A</td>
+              <td data-label="stat">
+                <div class="ui fluid label">
+                  <div class="ui empty circular green label" style="margin-top: 2px; float: left;"></div>
+                  <p style="text-align: center;">Active</p>
+                </div>
+              </td>
+              <td data-label="action">
+                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="uid">Samuel Bennett</td>
+              <td data-label="uid">sam@hotmail.com</td>
+              <td data-label="uid">FA 5C FC 6B</td>
+              <td data-label="door">Door A1</td>
+              <td data-label="exp">12/12/2023</td>
+              <td data-label="stat">
+                <div class="ui fluid label" data-content="Payment not received." data-position="top right">
+                  <div class="ui empty circular red label" style="margin-top: 2px; float: left;"></div>
+                  <p style="text-align: center;">Paused</p>
+                </div>
+              </td>
+              <td data-label="action">
+                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="uid">Mark Smith</td>
+              <td data-label="uid">markos120@hotmail.co.uk</td>
+              <td data-label="uid">1A 5C CC BC</td>
+              <td data-label="door">Door A2</td>
+              <td data-label="exp">03/11/2022</td>
+              <td data-label="stat">
+                <div class="ui fluid label">
+                  <div class="ui empty circular grey label" style="margin-top: 2px; float: left;"></div>
+                  <p style="text-align: center;">Expired</p>
+                </div>
+              </td>
+              <td data-label="action">
+                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="app-content ui right attached active tab segment" data-tab="card-reg">
+        <div class="content-header">
+          <h3>CARD REGISTRATION</h3>
+        </div>
+        <div class="ui form">
+          <div class="field">
+            <h4 class="ui dividing header">User Information</h4>
+            <label>Name</label>
+            <div class="two fields">
+              <div class="field">
+                <input id="fname" type="text" placeholder="Enter User's First Name">
+              </div>
+              <div class="field">
+                <input id="lname" type="text" placeholder="Enter User's Last Name">
+              </div>
+            </div>
+            <div class="field">
+              <label for="email">Email Address</label>
+              <input id="email" type="text" placeholder="Enter User's Email Address">
+            </div>
+            <h4 class="ui dividing header">Card Configuration</h4>
+            <div class="field">
+              <label>Select Card</label>
+              <select id="card-selection" class="ui fluid search dropdown ui-dropdown">
+                <option value="">Select Card UID</option>
+                <option value="1">FF 9C 89 0A</option>
+                <option value="2">DF D3 0C CA</option>
+                <option value="3">P9 9O 3F FF</option>
+                <option value="4">00 9C 01 1B</option>
+              </select>
+            </div>
+            <label>Type of Card</label>
+            <div class="inline fields">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input id="adminrad" type="radio" name="cardlevel" checked="checked">
+                  <label for="adminrad">Administrator Access</label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input id="standrad" type="radio" name="cardlevel">
+                  <label for="standrad">Standard Access</label>
+                </div>
+              </div>
+            </div>
+            <div id="card-access-warning" class="ui icon message">
+              <i class="fas fa-exclamation-triangle fa-3x" style="color: #f39c12; margin-right: 20px !important;"></i>
+              <div class="content">
+                <div class="header">
+                  Administrator Access
+                </div>
+                <p>
+                  Caution, this card will be able to open 
+                  all available doors registered in the system. 
+                  Please double check before proceeding.
+                </p>
+              </div>
+            </div>
+            <div id="togglable-visible-content" class="card-access-hide">
+              <div class="field">
+                <label>Select Doors</label>
+                <select id="door-selection" class="ui fluid search dropdown ui-dropdown" multiple="">
+                  <option value="">Select Door(s)/Level(s)</option>
+                  <option value="A1">Door A1</option>
+                  <option value="A2">Door A2</option>
+                  <option value="A3">Door A3</option>
+                  <option value="A4">Door A4</option>
+                </select>
+              </div>
+              <h4 class="ui dividing header">Additional Options</h4>
+              <div class="field">
+                <label for="expdate">Expiration Date</label>
+                <input id="expdate" type="date" style="margin-bottom: 8px;">
+  
+                <div class="ui checkbox">
+                  <input id="expdatecheck" type="checkbox" checked="checked">
+                  <label for="expdatecheck">No Expiration</label>
+                </div>
+              </div>
+              <div class="field">
+                <label>Add Standard Time</label>
+                <select id="time-selection" class="ui fluid search dropdown ui-dropdown">
+                  <option value="">Select Standard Time</option>
+                  <option value="1w">1 Week</option>
+                  <option value="2w">2 Weeks</option>
+                  <option value="1m">1 Month</option>
+                  <option value="2m">2 Months</option>
+                  <option value="3m">3 Months</option>
+                  <option value="6m">6 Months</option>
+                  <option value="1y">1 Year</option>
+                  <option value="2y">2 Years</option>
+                </select>
+  
+                <div class="ui checkbox" style="margin-top: 8px !important;">
+                  <input id="unlimtime" type="checkbox" checked="checked">
+                  <label for="unlimtime">Unlimited Time</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content-footer">
+          <div id="activate-card-btn" class="ui blue button" style="margin-right: 10px;"><i class="fas fa-check"></i> Activate Card</div>
+          <div id="activate-card-btn" class="ui grey button"><i class="fas fa-clock"></i> Activate Card Later</div>
+          <div id="reset-form-btn" class="ui red button" style="float: right;"><i class="fas fa-sync"></i> Reset Form</div>
+        </div>
+      </div>
+
+      <div class="app-content ui right attached tab segment" data-tab="all-doors">
+        <div class="content-header">
+          <h3>ALL DOORS</h3>
+        </div>
+
+        <div id="door-list-search" class="ui icon input" style="float: right;">
+          <input type="text" placeholder="Search...">
+          <i class="search icon"></i>
+        </div>
+
+        <!-- DOOR MODAL -->
+        <div id="add-door-modal" class="ui tiny modal">
+          <div class="header">Add New Door</div>
+          <div class="content">
+            <div class="ui form">
+              <div class="field">
+                <label for="door-tag-input">Door Tag Name</label>
+                <input id="door-tag-input" type="text" placeholder="Enter Door Tag Name (e.g. Kitchen, Toilet, Common Area, etc)">
+              </div>
+              <div class="field">
+                <label for="door-number-input">Door Number</label>
+                <input id="door-number-input" type="text" placeholder="Enter Door Number">
+              </div>
+              <div class="field">
+                <label for="email">Door Level</label>
+                <select id="door-level-select" class="ui fluid search dropdown ui-dropdown">
+                  <option value="">Select Level</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="actions">
+            <div id="close-door-modal" class="ui cancel red button"><i class="fas fa-times"></i> Cancel</div>
+            <div id="add-door-btn" class="ui approve green button"><i class="fas fa-check"></i> Add Door</div>
+          </div>
+        </div>
+        
+        <!-- DOOR PAGE -->
+        <button id="open-new-door-modal" class="ui blue button"><i class="plus icon"></i> Add New Door</button>
+
+        <table class="ui celled table">
+          <thead>
+            <tr>
+              <th>Door Tag Name</th>
+              <th>Door Number</th>
+              <th>Door Level</th>
+              <th>Door Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="door-table-content">
+            <tr>
+              <td data-label="tag">Door A1</td>
+              <td data-label="door">A1</td>
+              <td data-label="door-lvl"></td>
+              <td data-label="doorstat">Available</td>
+              <td data-label="action">
+                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="tag">Door A2</td>
+              <td data-label="door">A2</td>
+              <td data-label="door-lvl"></td>
+              <td data-label="doorstat">Available</td>
+              <td data-label="action">
+                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="tag">Door A3</td>
+              <td data-label="door">A3</td>
+              <td data-label="door-lvl"></td>
+              <td data-label="doorstat">Available</td>
+              <td data-label="action">
+                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="tag">Door A4</td>
+              <td data-label="door">A4</td>
+              <td data-label="door-lvl"></td>
+              <td data-label="doorstat">Available</td>
+              <td data-label="action">
+                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="app-content ui right attached tab segment" data-tab="all-cards">
+        <div class="content-header">
+          <h3>ALL CARDS</h3>
+        </div>
+
+        <div id="card-list-search" class="ui icon input" style="float: right;">
+          <input type="text" placeholder="Search...">
+          <i class="search icon"></i>
+        </div>
+
+        <button id="register-card-btn" class="ui blue button"><i class="plus icon"></i> Register New Card</button>
+
+        <table class="ui celled table">
+          <thead>
+            <tr>
+              <th>Card UID</th>
+              <th>Card Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="card-table-content">
+            <tr>
+              <td data-label="uid">F1 5C FC CC</td>
+              <td data-label="cardstat">Available</td>
+              <td data-label="action">
+                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="uid">1A 5C CC BC</td>
+              <td data-label="cardstat">Available</td>
+              <td data-label="action">
+                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="uid">FA 5C FC 6B</td>
+              <td data-label="cardstat">Available</td>
+              <td data-label="action">
+                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="uid">AA CC 5F BB</td>
+              <td data-label="cardstat">Available</td>
+              <td data-label="action">
+                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
+              </td>
+            </tr>
+            <tr>
+              <td data-label="uid">BA FF C9 0E</td>
+              <td data-label="cardstat">Available</td>
+              <td data-label="action">
+                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="app-content ui right attached tab segment" data-tab="logs">
+        <div class="content-header">
+          <h3>SYSTEM LOGS</h3>
+        </div>
+
+        <table class="ui celled table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Category</th>
+              <th>Message</th>
+              <th>Severity</th>
+              <th>Reviewed By</th>
+            </tr>
+          </thead>
+          <tbody id="door-table-content">
+            <tr>
+              <td data-label="log-date">03/17/2022</td>
+              <td data-label="log-time">12:48 PM</td>
+              <td data-label="log-cat">Access</td>
+              <td data-label="log-msg">Access denied for Eugen on door A11.</td>
+              <td data-label="log-severity">High</td>
+              <td data-label="log-reviewed">N/A</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="app-content ui right attached tab segment" data-tab="access-list">
+        <div class="content-header">
+          <h3>ACCESS LIST</h3>
+        </div>
+      </div>
+
+      <div class="app-content ui right attached tab segment" data-tab="sett">
+        <div class="content-header">
+          <h3>SETTINGS</h3>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

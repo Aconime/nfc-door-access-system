@@ -1,0 +1,36 @@
+#app-wrapper {
+  display: flex !important;
+
+  width: 100%;
+  height: 100%;
+}
+
+#app-sidemenu {
+  height: 100% !important;
+  width: 250px !important;
+}
+
+.app-content {
+  overflow-y: auto;
+  width: calc(100% - 250px) !important;
+  height: 100%;
+  padding-bottom: 15px;
+}
+
+.content-header {
+  height: 35px;
+  line-height: 35px;
+  margin-bottom: 15px;
+}
+
+.content-header > h3 {
+  color: #000;
+}
+
+.content-footer {
+  padding-top: 15px;
+}
+
+tr:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
