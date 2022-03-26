@@ -1,3 +1,8 @@
+import * as api from './global/api.js';
+
+// User Token
+const token = localStorage.getItem('userToken');
+
 // LOAD ALL LEVELS ON MODAL DROPDOWN
 const addDoorModal = document.getElementById("add-door-modal");
 if (addDoorModal) $("#add-door-modal").modal({
@@ -5,21 +10,19 @@ if (addDoorModal) $("#add-door-modal").modal({
     const doorLevelDropDown = document.getElementById("door-level-select");
     doorLevelDropDown.innerHTML = "<option value=''>Select Level</option>";
 
-    fetch('http://localhost/nfc-door-backend/public/api/levels/all', {
-      headers: {
-        'x-authorization-token': 'abcd'
-      }
-    }).then(res => {
-      if (res.ok) return res.json();
-      else throw new Error("Unauthorized");
-    }).then(levels => {
-        if (levels.payload) {
-          for (let i = 0; i <= levels.payload.length - 1; i++) {
+    fetch(api.getLevelsAll, { headers: { 'x-authorization-token': token }})
+      .then(res => {
+        if (res.ok) return res.json();
+        else throw new Error(res.status);
+      })
+      .then(levels => {
+        console.log(levels);
+        if (levels.payload)
+          for (let i = 0; i <= levels.payload.length - 1; i++)
             doorLevelDropDown.innerHTML += `<option value="${levels.payload[i].level_id}">${levels.payload[i].level}</option>`;
-          }
-        }
-      }).catch(error => console.log(error));
-  }
+      })
+      .catch(err => console.log(err));
+  },
 }).modal('attach events', '#open-new-door-modal', 'show');
 
 // MODAL ADD NEW DOOR BUTTON

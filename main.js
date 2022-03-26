@@ -18,7 +18,7 @@ function openAppWindow() {
 
   // mainWindow.menuBarVisible = false;
   
-  mainWindow.loadFile('src/index.html');
+  mainWindow.loadFile('src/login.html');
 }
 
 app.whenReady().then(() => {

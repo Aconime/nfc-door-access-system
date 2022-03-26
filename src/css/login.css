@@ -1,5 +1,14 @@
+body {
+  background-color: #f5f5f5;
+}
+
 div.ui.form {
   width: 400px;
+  border-radius: 4px;
+  background-color: #fff;
+  padding: 15px;
+  box-sizing: border-box;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   position: absolute;
   top: calc(50% - 20px);
   left: 50%;
@@ -7,10 +16,10 @@ div.ui.form {
 }
 
 #form-title {
-  font-size: 24pt;
+  color: #333;
+  font-size: 18pt;
   margin-bottom: 20px;
   margin-left: -2px;
-  color: #333;
 }
 
 button[type="submit"]#login-btn {
