@@ -1,5 +1,5 @@
 $('#app-sidemenu .item').tab();
-$('.ui-dropdown').dropdown();
+$('.ui-dropdown').dropdown({ clearable: true });
 $('*').popup();
 
 // FILTER MENU

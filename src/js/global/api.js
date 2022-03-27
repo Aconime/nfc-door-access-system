@@ -1,8 +1,9 @@
 import * as host from './host.js';
 
-const getLevelsAll  = `${host.apiHost}/api/levels/all`;
-const getDoorsAll   = `${host.apiHost}/api/doors/all`;
-const getCardsAll   = `${host.apiHost}/api/cards/all`;
-const login         = `${host.apiHost}/login`;
+const login = `${host.apiHost}/login`;
+const allLevels = `${host.apiHost}/api/levels/all`;
+const allDoors = `${host.apiHost}/api/doors/all`;
+const allCards = `${host.apiHost}/api/cards/all`;
+const addDoor = `${host.apiHost}/api/doors/add`;
 
-export { getLevelsAll, getDoorsAll, getCardsAll, login };
+export { login, allLevels, allDoors, allCards, addDoor };

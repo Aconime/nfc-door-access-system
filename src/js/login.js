@@ -1,5 +1,7 @@
 import * as api from './global/api.js';
 
+window.onload = () => localStorage.clear();
+
 const loginButton = document.getElementById('login-btn');
 if (loginButton) loginButton.addEventListener('click', () => {
   // User Login Details

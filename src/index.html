@@ -25,6 +25,7 @@
     <script defer src="js/ui.js"></script>
     <script defer src="js/cardreg.js"></script>
     <script defer type="module" src="js/doors.js"></script>
+    <script defer type="module" src="js/tabs.js"></script>
   </head>
   <body>
     <div id="app-wrapper">
@@ -36,7 +37,7 @@
         <a class="item" data-tab="card-reg">Card Registration</a>
 
         <p class="ui left aligned horizontal divider" style="margin-left: 15px;">Doors</p>
-        <a class="item" data-tab="all-doors">All Doors</a>
+        <a id="all-doors-tab-btn" class="item" data-tab="all-doors">All Doors</a>
         <a class="item" data-tab="doors-unav">Unavailable Doors</a>
         <a class="item" data-tab="doors-brok">Broken Doors</a>
         <a class="item" data-tab="door-lvl">Door Levels</a>
@@ -270,7 +271,7 @@
         </div>
 
         <!-- DOOR MODAL -->
-        <div id="add-door-modal" class="ui tiny modal">
+        <div id="add-door-modal" class="ui tiny coupled modal">
           <div class="header">Add New Door</div>
           <div class="content">
             <div class="ui form">
@@ -295,6 +296,16 @@
             <div id="add-door-btn" class="ui approve green button"><i class="fas fa-check"></i> Add Door</div>
           </div>
         </div>
+
+        <div id="add-door-error-modal" class="ui mini coupled modal">
+          <div id="add-door-error-modal-title" class="header"></div>
+          <div class="content">
+            <p id="add-door-error-modal-message"></p>
+          </div>
+          <div class="actions">
+            <div id="close-door-modal" class="ui cancel fluid basic button">GOT IT</div>
+          </div>
+        </div>
         
         <!-- DOOR PAGE -->
         <button id="open-new-door-modal" class="ui blue button"><i class="plus icon"></i> Add New Door</button>
@@ -309,37 +320,10 @@
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody id="door-table-content">
-            <tr>
+          <tbody id="all-doors-table-content">
+            <tr data-door-id="id">
               <td data-label="tag">Door A1</td>
               <td data-label="door">A1</td>
-              <td data-label="door-lvl"></td>
-              <td data-label="doorstat">Available</td>
-              <td data-label="action">
-                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
-              </td>
-            </tr>
-            <tr>
-              <td data-label="tag">Door A2</td>
-              <td data-label="door">A2</td>
-              <td data-label="door-lvl"></td>
-              <td data-label="doorstat">Available</td>
-              <td data-label="action">
-                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
-              </td>
-            </tr>
-            <tr>
-              <td data-label="tag">Door A3</td>
-              <td data-label="door">A3</td>
-              <td data-label="door-lvl"></td>
-              <td data-label="doorstat">Available</td>
-              <td data-label="action">
-                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
-              </td>
-            </tr>
-            <tr>
-              <td data-label="tag">Door A4</td>
-              <td data-label="door">A4</td>
               <td data-label="door-lvl"></td>
               <td data-label="doorstat">Available</td>
               <td data-label="action">
