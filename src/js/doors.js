@@ -1,5 +1,6 @@
-import * as call from './global/calls.js';
-import * as refresh from './global/refresh.js';
+import * as call from '../global/call.js';
+import * as refresh from '../global/refresh.js';
+import * as modals from '../global/modals.js';
 
 // LOAD ALL LEVELS ON MODAL DROPDOWN
 $("#add-door-modal").modal({
@@ -31,28 +32,6 @@ $("#add-door-modal").modal({
   }
 }).modal('attach events', '#open-new-door-modal', 'show');
 
-function showErrorModal(type) {
-  const addDoorErroModalTitle = document.getElementById("add-door-error-modal-title");
-  const addDoorErroModalMessage = document.getElementById("add-door-error-modal-message");
-
-  if (type == 0) {
-    addDoorErroModalTitle.innerHTML = "Empty Fields";
-    addDoorErroModalMessage.innerHTML = "Please enter all the required information on the feilds. Empty fields are not allowed.";
-  
-    $("#add-door-error-modal").modal({ allowMultiple: true }).modal('show');
-  } else if (type == 1) {
-    addDoorErroModalTitle.innerHTML = "Invalid Character";
-    addDoorErroModalMessage.innerHTML = "You have entered an invalid character on the fields, please make sure you enter text and numbers only.";
-
-    $("#add-door-error-modal").modal({ allowMultiple: true }).modal('show');
-  } else if (type == 2) {
-    addDoorErroModalTitle.innerHTML = "Authentication Error";
-    addDoorErroModalMessage.innerHTML = "Unable to add the new door to the list. Please try again or contact your administrator for further assistance.";
-
-    $("#add-door-error-modal").modal({ allowMultiple: true }).modal('show');
-  }
-}
-
 const addNewDoorButton = document.getElementById("add-door-btn");
 if (addNewDoorButton) addNewDoorButton.addEventListener("click", async () => {
   const doorTag = document.getElementById("door-tag-input");
@@ -65,12 +44,12 @@ if (addNewDoorButton) addNewDoorButton.addEventListener("click", async () => {
       doorTag.style.outline = "2px solid #e74c3c";
       doorTag.addEventListener("input", () => doorTag.style.outline = "none");
 
-      showErrorModal(1);
+      modals.showInnerModal("Invalid Character", "You have entered an invalid character on the fields, please make sure you enter text and numbers only.");
     } else if (doorNumber.value.includes(":")) {
       doorNumber.style.outline = "2px solid #e74c3c";
       doorNumber.addEventListener("input", () => doorNumber.style.outline = "none");
 
-      showErrorModal(1);
+      modals.showInnerModal("Invalid Character", "You have entered an invalid character on the fields, please make sure you enter text and numbers only.");
     } else {
       let addDoorResult = await call.addNewDoor(doorIdentifier, doorLevel.value);
       if (addDoorResult.success == "true") {
@@ -78,7 +57,7 @@ if (addNewDoorButton) addNewDoorButton.addEventListener("click", async () => {
         $("#add-door-modal").modal('hide');
       }
       else 
-        showErrorModal(2);
+      modals.showInnerModal("Authentication Error", "Unable to add the new door to the list. Please try again or contact your administrator for further assistance.");
     }
   } else {
     if (doorTag.value.length == 0) {
@@ -96,6 +75,7 @@ if (addNewDoorButton) addNewDoorButton.addEventListener("click", async () => {
       doorLevel.addEventListener("change", () => doorLevel.parentElement.style.outline = "none");
     }
 
-    showErrorModal(0);
+    modals.showInnerModal("Empty Fields", "Please enter all the required information on the feilds. Empty fields are not allowed.");
   }
 });
+

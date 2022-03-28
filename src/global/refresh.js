@@ -1,4 +1,4 @@
-import * as call from './calls.js';
+import * as call from './call.js';
 
 async function refreshAllDoorsList() {
   const allDoorsTableContent = document.getElementById("all-doors-table-content");

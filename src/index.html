@@ -21,14 +21,40 @@
     <script>window.$ = window.jQuery = require("jquery");</script>
     <script defer src="../lib/semantic/semantic.js"></script>
 
+    <!-- JAVASCRIPT GLOBAL INCLUDES -->
+    <script defer src="global/ui.js"></script>
+
     <!-- JAVASCRIPT INCLUDES -->
-    <script defer src="js/ui.js"></script>
-    <script defer src="js/cardreg.js"></script>
+    <script defer type="module" src="js/cardreg.js"></script>
     <script defer type="module" src="js/doors.js"></script>
     <script defer type="module" src="js/tabs.js"></script>
   </head>
   <body>
+    <!-- DOOR INNER MODAL -->
+    <div id="inner-modal" class="ui mini coupled modal">
+      <div id="inner-modal-title" class="header"></div>
+      <div class="content">
+        <p id="inner-modal-message"></p>
+      </div>
+      <div class="actions">
+        <div id="inner-modal-button" class="ui cancel fluid basic button">GOT IT</div>
+      </div>
+    </div>
+
+    <!-- DOOR OUTER MODAL -->
+    <div id="outer-modal" class="ui mini coupled modal">
+      <div id="outer-modal-title" class="header"></div>
+      <div class="content">
+        <p id="outer-modal-message"></p>
+      </div>
+      <div class="actions">
+        <div id="outer-modal-button" class="ui cancel fluid basic button">GOT IT</div>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
     <div id="app-wrapper">
+      <!-- TAB BUTTONS -->
       <div id="app-sidemenu" class="ui secondary vertical pointing menu">
         <p class="ui left aligned horizontal divider" style="margin-left: 15px;">Main</p>
         <a class="item" data-tab="dashboard">Dashboard</a>
@@ -57,6 +83,7 @@
         <a class="item">Logout</a>
       </div>
 
+      <!-- DASHBOARD TAB CONTENT -->
       <div class="app-content ui right attached tab segment" data-tab="dashboard">
         <div class="content-header">
           <h3>DASHBOARD</h3>
@@ -151,9 +178,10 @@
         </table>
       </div>
 
+      <!-- USER CARD REGISTRATION TAB CONTENT -->
       <div class="app-content ui right attached active tab segment" data-tab="card-reg">
         <div class="content-header">
-          <h3>CARD REGISTRATION</h3>
+          <h3>USER CARD REGISTRATION</h3>
         </div>
         <div class="ui form">
           <div class="field">
@@ -174,8 +202,20 @@
             <h4 class="ui dividing header">Card Configuration</h4>
             <div class="field">
               <label>Select Card</label>
-              <select id="card-selection" class="ui fluid search dropdown ui-dropdown">
+              <select id="card-selection" class="ui fluid search dropdown ui-dropdown" multiple="">
                 <option value="">Select Card UID</option>
+                <option value="1">FF 9C 89 0A</option>
+                <option value="2">DF D3 0C CA</option>
+                <option value="3">P9 9O 3F FF</option>
+                <option value="4">00 9C 01 1B</option>
+                <option value="1">FF 9C 89 0A</option>
+                <option value="2">DF D3 0C CA</option>
+                <option value="3">P9 9O 3F FF</option>
+                <option value="4">00 9C 01 1B</option>
+                <option value="1">FF 9C 89 0A</option>
+                <option value="2">DF D3 0C CA</option>
+                <option value="3">P9 9O 3F FF</option>
+                <option value="4">00 9C 01 1B</option>
                 <option value="1">FF 9C 89 0A</option>
                 <option value="2">DF D3 0C CA</option>
                 <option value="3">P9 9O 3F FF</option>
@@ -224,7 +264,7 @@
               <h4 class="ui dividing header">Additional Options</h4>
               <div class="field">
                 <label for="expdate">Expiration Date</label>
-                <input id="expdate" type="date" style="margin-bottom: 8px;">
+                <input id="expdate" type="datetime-local" style="margin-bottom: 8px;">
   
                 <div class="ui checkbox">
                   <input id="expdatecheck" type="checkbox" checked="checked">
@@ -260,6 +300,7 @@
         </div>
       </div>
 
+      <!-- ALL DOORS TAB CONTENT -->
       <div class="app-content ui right attached tab segment" data-tab="all-doors">
         <div class="content-header">
           <h3>ALL DOORS</h3>
@@ -270,7 +311,7 @@
           <i class="search icon"></i>
         </div>
 
-        <!-- DOOR MODAL -->
+        <!-- ADD NEW DOOR MODAL -->
         <div id="add-door-modal" class="ui tiny coupled modal">
           <div class="header">Add New Door</div>
           <div class="content">
@@ -294,16 +335,6 @@
           <div class="actions">
             <div id="close-door-modal" class="ui cancel red button"><i class="fas fa-times"></i> Cancel</div>
             <div id="add-door-btn" class="ui approve green button"><i class="fas fa-check"></i> Add Door</div>
-          </div>
-        </div>
-
-        <div id="add-door-error-modal" class="ui mini coupled modal">
-          <div id="add-door-error-modal-title" class="header"></div>
-          <div class="content">
-            <p id="add-door-error-modal-message"></p>
-          </div>
-          <div class="actions">
-            <div id="close-door-modal" class="ui cancel fluid basic button">GOT IT</div>
           </div>
         </div>
         
@@ -334,6 +365,7 @@
         </table>
       </div>
 
+      <!-- ALL CARDS TAB CONTENT -->
       <div class="app-content ui right attached tab segment" data-tab="all-cards">
         <div class="content-header">
           <h3>ALL CARDS</h3>
@@ -394,6 +426,7 @@
         </table>
       </div>
       
+      <!-- LOGS TAB CONTENT -->
       <div class="app-content ui right attached tab segment" data-tab="logs">
         <div class="content-header">
           <h3>SYSTEM LOGS</h3>
@@ -423,12 +456,14 @@
         </table>
       </div>
       
+      <!-- ACCESS LIST TAB CONTENT -->
       <div class="app-content ui right attached tab segment" data-tab="access-list">
         <div class="content-header">
           <h3>ACCESS LIST</h3>
         </div>
       </div>
 
+      <!-- SETTINGS TAB CONTENT -->
       <div class="app-content ui right attached tab segment" data-tab="sett">
         <div class="content-header">
           <h3>SETTINGS</h3>
