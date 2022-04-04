@@ -22,7 +22,7 @@ async function refreshDoorList() {
 let globalDoorId;
 
 const allDoorsTabButton = document.getElementById("all-doors-tab-btn");
-if (allDoorsTabButton) allDoorsTabButton.addEventListener("click", async () => {
+if (allDoorsTabButton) allDoorsTabButton.addEventListener("click", () => {
   refreshDoorList();
 });
 
@@ -56,7 +56,7 @@ async function loadModalData(modalType, doorId=null) {
 
     doorModalTitle.innerText = "Edit Door";
     doorModalMainButton.innerHTML = `<i class="fas fa-save"></i> Save Changes`;
-    doorModalMainButton.classList.remove('add-new-door');
+    doorModalMainButton.classList.remove('add-door-btn');
     doorModalDeleteButton.classList.remove("hidden-modal-element");
     doorModalStatusField.classList.remove("hidden-modal-element");
 
@@ -91,7 +91,7 @@ function clearModalInputs() {
 
   doorModalTitle.innerText = "Add New Door";
   doorModalMainButton.innerHTML = `<i class="fas fa-check"></i> Add Door`;
-  doorModalMainButton.classList.add('add-new-door');
+  doorModalMainButton.classList.add('add-door-btn');
   doorModalDeleteButton.classList.add("hidden-modal-element");
   doorModalStatusField.classList.add("hidden-modal-element");
 
@@ -118,7 +118,7 @@ const mainDoorButton = document.getElementById("main-door-btn");
 if (mainDoorButton) mainDoorButton.addEventListener("click", async () => {
   let doorModalActionType;
 
-  if (mainDoorButton.classList.contains("add-new-door")) doorModalActionType = 0;
+  if (mainDoorButton.classList.contains("add-door-btn")) doorModalActionType = 0;
   else doorModalActionType = 1;
   
   mainDoorModalFunction(doorModalActionType);
@@ -168,7 +168,7 @@ async function mainDoorModalFunction(actionType) {
             $("#door-modal").modal('hide');
             refreshDoorList();
           }
-          else 
+          else
             modals.showInnerModal("Authentication Error", "Unable to edit this door. Please try again or contact your administrator for further assistance.");
         } else {
           doorStatus.parentElement.style.outline = "2px solid #e74c3c";
@@ -211,10 +211,11 @@ if (deleteDoorModalButton) deleteDoorModalButton.addEventListener("click", () =>
     let deleteDoorResult = await call.deleteDoor(globalDoorId);
     if (deleteDoorResult.success == "true") {
       refreshDoorList();
+      setTimeout(() => {
+        $("#door-modal").modal('hide');
+      }, 1000);
     }
     else 
       modals.showInnerModal("Authentication Error", "Unable to remove this door from the list. Please try again or contact your administrator for further assistance.");
-  }, () => {
-    $("#door-modal").modal('hide');
   });
 });

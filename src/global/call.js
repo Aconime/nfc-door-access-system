@@ -73,4 +73,24 @@ async function deleteDoor(doorId) {
   return results;
 }
 
-export { showAllLevels, showAllDoors, showAllCards, addNewDoor, editDoor, deleteDoor };
+async function addNewLevel(levelName) {
+  let results;
+
+  await fetch(api.addLevel + "?level=" + levelName, { headers: token })
+    .then(res => res.json())
+    .then(levelRes => results = levelRes);
+
+  return results;
+}
+
+async function deleteLevel(levelId) {
+  let results;
+
+  await fetch(api.delLevel + "?level_id=" + levelId, { headers: token })
+    .then(res => res.json())
+    .then(levelRes => results = levelRes);
+
+  return results;
+}
+
+export { showAllLevels, showAllDoors, showAllCards, addNewDoor, editDoor, deleteDoor, addNewLevel, deleteLevel };

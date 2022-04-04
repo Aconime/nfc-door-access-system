@@ -17,7 +17,7 @@ function showInnerQuestionModal(title, message, yesClickedCallback=() => {}, fin
   modalTitle.innerText = title;
   modalMessage.innerText = message;
 
-  $("#inner-question-modal").modal({ allowMultiple: true, closable: false, onApprove: () => yesClickedCallback(), onHidden: () => finalCallback()}).modal('show');
+  $("#inner-question-modal").modal({ allowMultiple: true, closable: false, onApprove: () => { yesClickedCallback() }, onHidden: () => finalCallback()}).modal('show');
 }
 
 export { showInnerModal, showInnerQuestionModal };

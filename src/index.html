@@ -28,6 +28,7 @@
     <!-- JAVASCRIPT INCLUDES -->
     <script defer type="module" src="js/cardreg.js"></script>
     <script defer type="module" src="js/doors.js"></script>
+    <script defer type="module" src="js/levels.js"></script>
     <script defer type="module" src="js/tabs.js"></script>
   </head>
   <body>
@@ -49,8 +50,8 @@
         <p id="inner-question-modal-message"></p>
       </div>
       <div class="actions">
-        <div class="ui cancel fluid basic button">NO</div>
-        <div class="ui approve fluid basic button">YES</div>
+        <div class="ui cancel green button">NO</div>
+        <div class="ui approve red button">YES</div>
       </div>
     </div>
 
@@ -109,8 +110,12 @@
             Active
           </a>
           <a class="item">
+            <i class="fas fa-clock"></i>
+            Pending
+          </a>
+          <a class="item">
             <i class="fas fa-ban"></i>
-            Paused
+            Blocked
           </a>
           <a class="item">
             <i class="fas fa-calendar-times"></i>
@@ -118,69 +123,39 @@
           </a>
         </div>
 
-        <table class="ui celled table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email Address</th>
-              <th>Card UID</th>
-              <th>Allowed Access</th>
-              <th>Exp. Date</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td data-label="uid">Eugen Rupi</td>
-              <td data-label="uid">eugen.rupi@gmail.com</td>
-              <td data-label="uid">F1 5C FC CC</td>
-              <td data-label="door">A1, A2, A3, A4</td>
-              <td data-label="exp">N/A</td>
-              <td data-label="stat">
-                <div class="ui fluid label">
-                  <div class="ui empty circular green label" style="margin-top: 2px; float: left;"></div>
-                  <p style="text-align: center;">Active</p>
-                </div>
-              </td>
-              <td data-label="action">
-                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
-              </td>
-            </tr>
-            <tr>
-              <td data-label="uid">Samuel Bennett</td>
-              <td data-label="uid">sam@hotmail.com</td>
-              <td data-label="uid">FA 5C FC 6B</td>
-              <td data-label="door">Door A1</td>
-              <td data-label="exp">12/12/2023</td>
-              <td data-label="stat">
-                <div class="ui fluid label" data-content="Payment not received." data-position="top right">
-                  <div class="ui empty circular red label" style="margin-top: 2px; float: left;"></div>
-                  <p style="text-align: center;">Paused</p>
-                </div>
-              </td>
-              <td data-label="action">
-                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
-              </td>
-            </tr>
-            <tr>
-              <td data-label="uid">Mark Smith</td>
-              <td data-label="uid">markos120@hotmail.co.uk</td>
-              <td data-label="uid">1A 5C CC BC</td>
-              <td data-label="door">Door A2</td>
-              <td data-label="exp">03/11/2022</td>
-              <td data-label="stat">
-                <div class="ui fluid label">
-                  <div class="ui empty circular grey label" style="margin-top: 2px; float: left;"></div>
-                  <p style="text-align: center;">Expired</p>
-                </div>
-              </td>
-              <td data-label="action">
-                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-wrapper-fixed">
+          <table class="ui celled table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email Address</th>
+                <th>Card UID</th>
+                <th>Allowed Access</th>
+                <th>Valid Until</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="uid">Eugen Rupi</td>
+                <td data-label="uid">eugen.rupi@gmail.com</td>
+                <td data-label="uid">F1 5C FC CC</td>
+                <td data-label="door">A1, A2, A3, A4</td>
+                <td data-label="exp">N/A</td>
+                <td data-label="stat">
+                  <div class="ui fluid label">
+                    <div class="ui empty circular green label" style="margin-top: 2px; float: left;"></div>
+                    <p style="text-align: center;">Active</p>
+                  </div>
+                </td>
+                <td data-label="action">
+                  <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <!-- USER CARD REGISTRATION TAB CONTENT -->
@@ -211,20 +186,6 @@
                 <option value="">Select Card UID</option>
                 <option value="1">FF 9C 89 0A</option>
                 <option value="2">DF D3 0C CA</option>
-                <option value="3">P9 9O 3F FF</option>
-                <option value="4">00 9C 01 1B</option>
-                <option value="1">FF 9C 89 0A</option>
-                <option value="2">DF D3 0C CA</option>
-                <option value="3">P9 9O 3F FF</option>
-                <option value="4">00 9C 01 1B</option>
-                <option value="1">FF 9C 89 0A</option>
-                <option value="2">DF D3 0C CA</option>
-                <option value="3">P9 9O 3F FF</option>
-                <option value="4">00 9C 01 1B</option>
-                <option value="1">FF 9C 89 0A</option>
-                <option value="2">DF D3 0C CA</option>
-                <option value="3">P9 9O 3F FF</option>
-                <option value="4">00 9C 01 1B</option>
               </select>
             </div>
             <label>Type of Card</label>
@@ -274,25 +235,6 @@
                 <div class="ui checkbox">
                   <input id="expdatecheck" type="checkbox" checked="checked">
                   <label for="expdatecheck">No Expiration</label>
-                </div>
-              </div>
-              <div class="field">
-                <label>Add Standard Time</label>
-                <select id="time-selection" class="ui fluid search dropdown ui-dropdown">
-                  <option value="">Select Standard Time</option>
-                  <option value="1w">1 Week</option>
-                  <option value="2w">2 Weeks</option>
-                  <option value="1m">1 Month</option>
-                  <option value="2m">2 Months</option>
-                  <option value="3m">3 Months</option>
-                  <option value="6m">6 Months</option>
-                  <option value="1y">1 Year</option>
-                  <option value="2y">2 Years</option>
-                </select>
-  
-                <div class="ui checkbox" style="margin-top: 8px !important;">
-                  <input id="unlimtime" type="checkbox" checked="checked">
-                  <label for="unlimtime">Unlimited Time</label>
                 </div>
               </div>
             </div>
@@ -441,7 +383,7 @@
               <tr data-door-id="id">
                 <td data-label="lvl">Level 1</td>
                 <td class="right aligned" data-label="action">
-                  <button class="ui tiny basic button"><i class="trash icon"></i> Remove</button>
+                  <button class="ui tiny basic button delete-btn"><i class="trash icon"></i> Remove</button>
                 </td>
               </tr>
             </tbody>

@@ -33,7 +33,7 @@ async function refreshAllDoorsList() {
     else if (allDoors[i].is_active == 1) doorListItem += `<td data-label="doorstat">Available</td>`;
         
     doorListItem += `<td data-label="action">
-          <button id="dr-ed-btn-${i}" class="ui tiny basic button edit-btn"><i class="edit icon"></i> Edit</button>
+          <button id="dr-ed-btn-${i}" class="ui tiny basic button edit-door-btn"><i class="edit icon"></i> Edit</button>
         </td>
       </tr>`;
 
@@ -41,7 +41,7 @@ async function refreshAllDoorsList() {
   }
 
   let refreshResult = []
-  const editButtons = document.getElementsByClassName('edit-btn');
+  const editButtons = document.getElementsByClassName('edit-door-btn');
   for (let i = 0; i <= editButtons.length -1; i++) {
     let doorId = editButtons[i].parentNode.parentNode.getAttribute('data-door-id');
     refreshResult.push({
@@ -60,12 +60,24 @@ async function refreshAllLevelsList() {
   let allLevels = await call.showAllLevels();
 
   for (let i = 0; i <= allLevels.length - 1; i++)
-    allLevelsTableContent.innerHTML += `<tr data-door-id="${allLevels[i].level_id}">
+    allLevelsTableContent.innerHTML += `<tr data-level-id="${allLevels[i].level_id}">
         <td data-label="lvl">${allLevels[i].level}</td>
         <td class="right aligned" data-label="action">
-          <button class="ui tiny basic button" data-btn-info="level-action"><i class="trash icon"></i> Remove</button>
+          <button id="lvl-del-btn-${i}" class="ui tiny basic button lvl-del-btn"><i class="trash icon"></i> Remove</button>
         </td>
       </tr>`;
+
+  let refreshResult = []
+  const deleteLevelButtons = document.getElementsByClassName('lvl-del-btn');
+  for (let i = 0; i <= deleteLevelButtons.length -1; i++) {
+    let levelId = deleteLevelButtons[i].parentNode.parentNode.getAttribute('data-level-id');
+    refreshResult.push({
+      "level_id": levelId,
+      "button_id": deleteLevelButtons[i].id.toString()
+    });
+  }
+
+  return refreshResult;
 }
 
 async function refreshAllCardsList() {
