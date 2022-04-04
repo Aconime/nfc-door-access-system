@@ -106,4 +106,68 @@ async function refreshAllCardsList() {
   }
 }
 
-export { refreshAllDoorsList, refreshAllLevelsList, refreshAllCardsList };
+async function refreshAllClients() {
+  const allClientsTableContent = document.getElementById("all-clients-table-content");
+  allClientsTableContent.innerHTML = "";
+
+  let allClients = await call.showAllClients();
+  for (let i = 0; i <= allClients.length - 1; i++) {
+    let allCardCliets = await call.getAllClients(allClients[i].user_id);
+    if (allCardCliets.cards[0]) {
+      let clientsListItem = `<tr id="${allClients[i].user_id}">
+        <td data-label="cname">${allCardCliets.first_name + " " + allCardCliets.last_name}</td>
+        <td data-label="cemail">${allCardCliets.email}</td>
+        <td data-label="cuid">${allCardCliets.cards[0].uid}</td>`;
+
+      let clientDoors = "";
+
+      for (let j = 0; j <= allCardCliets.cards[0].doors.length - 2; j++) {
+        let doorTag = allCardCliets.cards[0].doors[j].door_identifier.split(":")[1];
+        clientDoors += doorTag + ", ";
+      }
+
+      clientDoors += allCardCliets.cards[0].doors[allCardCliets.cards[0].doors.length - 1].door_identifier.split(":")[1];
+
+      clientsListItem += `<td data-label="cdoor">${clientDoors}</td>
+      <td data-label="cexp">${allCardCliets.cards[0].expires_at}</td>`;
+
+      if (allCardCliets.is_active == 0) 
+        clientsListItem += `<td data-label="cstat">
+            <div class="ui fluid label">
+              <div class="ui empty circular grey label" style="margin-top: 2px; float: left;"></div>
+              <p style="text-align: center;">Pending</p>
+            </div>
+          </td>`;
+      else if (allCardCliets.is_active == 1)
+        clientsListItem += `<td data-label="cstat">
+            <div class="ui fluid label">
+              <div class="ui empty circular green label" style="margin-top: 2px; float: left;"></div>
+              <p style="text-align: center;">Active</p>
+            </div>
+          </td>`;
+      else if (allCardCliets.is_active == 2)
+        clientsListItem += `<td data-label="cstat">
+            <div class="ui fluid label">
+              <div class="ui empty circular red label" style="margin-top: 2px; float: left;"></div>
+              <p style="text-align: center;">Expired</p>
+            </div>
+          </td>`;
+      else if (allCardCliets.is_active == 3)
+        clientsListItem += `<td data-label="cstat">
+            <div class="ui fluid label">
+              <div class="ui empty circular purple label" style="margin-top: 2px; float: left;"></div>
+              <p style="text-align: center;">Blocked</p>
+            </div>
+          </td>`;
+
+      clientsListItem += `<td data-label="action">
+            <button class="ui tiny basic button edit-client-btn"><i class="edit icon"></i> Edit</button>
+          </td>
+        </tr>`;
+
+      allClientsTableContent.innerHTML = clientsListItem;
+    }
+  }
+}
+
+export { refreshAllDoorsList, refreshAllLevelsList, refreshAllCardsList, refreshAllClients };

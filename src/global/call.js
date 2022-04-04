@@ -39,6 +39,30 @@ async function showAllCards() {
   return results;
 }
 
+async function showAllClients() {
+  let results;
+
+  await fetch(api.allClients, { headers: token })
+    .then(res => res.json())
+    .then(clients => {
+      if (clients.payload) results = clients.payload;
+    });
+
+  return results;
+}
+
+async function getAllClients(userId) {
+  let results;
+
+  await fetch(api.getClients + "?user_id=" + userId, { headers: token })
+    .then(res => res.json())
+    .then(clients => {
+      if (clients.payload) results = clients.payload;
+    });
+
+  return results;
+}
+
 async function addNewDoor(doorName, levelId, doorStatus=1) {
   let results;
 
@@ -93,4 +117,4 @@ async function deleteLevel(levelId) {
   return results;
 }
 
-export { showAllLevels, showAllDoors, showAllCards, addNewDoor, editDoor, deleteDoor, addNewLevel, deleteLevel };
+export { showAllLevels, showAllDoors, showAllCards, showAllClients, getAllClients, addNewDoor, editDoor, deleteDoor, addNewLevel, deleteLevel };

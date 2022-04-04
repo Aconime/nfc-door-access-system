@@ -70,7 +70,7 @@
     <div id="app-wrapper">
       <!-- TAB BUTTONS -->
       <div id="app-sidemenu" class="ui secondary vertical menu">
-        <a class="item" data-tab="all-clients">All Clients</a>
+        <a id="all-clients-tab-btn" class="item" data-tab="all-clients">All Clients</a>
         <div class="ui fitted divider" style="margin-top: -4px;"></div>
         <a class="item" data-tab="client-reg">Client Registration</a>
         <div class="ui fitted divider" style="margin-top: -4px;"></div>
@@ -123,7 +123,7 @@
           </a>
         </div>
 
-        <div class="table-wrapper-fixed">
+        <div class="table-wrapper">
           <table class="ui celled table">
             <thead>
               <tr>
@@ -136,7 +136,7 @@
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="all-clients-table-content">
               <tr>
                 <td data-label="uid">Eugen Rupi</td>
                 <td data-label="uid">eugen.rupi@gmail.com</td>
@@ -182,7 +182,7 @@
             <h4 class="ui dividing header">Card Configuration</h4>
             <div class="field">
               <label>Select Card</label>
-              <select id="card-selection" class="ui fluid search dropdown ui-dropdown" multiple="">
+              <select id="card-selection" class="ui fluid search dropdown ui-dropdown">
                 <option value="">Select Card UID</option>
                 <option value="1">FF 9C 89 0A</option>
                 <option value="2">DF D3 0C CA</option>
@@ -220,11 +220,20 @@
               <div class="field">
                 <label>Select Doors</label>
                 <select id="door-selection" class="ui fluid search dropdown ui-dropdown" multiple="">
-                  <option value="">Select Door(s)/Level(s)</option>
+                  <option value="">Select Door(s)</option>
                   <option value="A1">Door A1</option>
                   <option value="A2">Door A2</option>
                   <option value="A3">Door A3</option>
                   <option value="A4">Door A4</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>Select Levels</label>
+                <select id="level-selection" class="ui fluid search dropdown ui-dropdown" multiple="">
+                  <option value="">Select Level(s)</option>
+                  <option value="A1">Level 1</option>
+                  <option value="A2">Level 2</option>
                 </select>
               </div>
               <h4 class="ui dividing header">Additional Options</h4>
