@@ -1,20 +1,40 @@
 import * as api from './api.js';
 
 // User Token
-const token = { headers: { 'x-authorization-token': localStorage.getItem('userToken') }};
+const token = { 'x-authorization-token': localStorage.getItem('userToken') }
 
 async function showAllLevels() {
   let results;
 
-  await fetch(api.allLevels, token)
-    .then(res => {
-      if (res.ok) return res.json();
-      else throw new Error(res.status);
-    })
+  await fetch(api.allLevels, { headers: token })
+    .then(res => res.json())
     .then(levels => {
       if (levels.payload) results = levels.payload;
-    })
-    .catch(() => location.href = "./login.html");
+    });
+
+  return results;
+}
+
+async function showAllDoors() {
+  let results;
+
+  await fetch(api.allDoors, { headers: token })
+    .then(res => res.json())
+    .then(doors => {
+      if (doors.payload) results = doors.payload;
+    });
+
+  return results;
+}
+
+async function showAllCards() {
+  let results;
+
+  await fetch(api.allCards, { headers: token })
+    .then(res => res.json())
+    .then(cards => {
+      if (cards.payload) results = cards.payload;
+    });
 
   return results;
 }
@@ -24,31 +44,33 @@ async function addNewDoor(doorName, levelId, doorStatus=1) {
 
   let doorData = "door_identifier=" + doorName + "&door_access_level_id=" + levelId + "&is_active=" + doorStatus;
 
-  await fetch(api.addDoor + "?" + doorData, token)
-    .then(res => {
-      if (res.ok) return res.json();
-      else throw new Error(res.status);
-    })
-    .then(doorRes => results = doorRes)
-    .catch(() => location.href = "./login.html");
+  await fetch(api.addDoor + "?" + doorData, { headers: token })
+    .then(res => res.json())
+    .then(doorRes => results = doorRes);
 
   return results;
 }
 
-async function showAllDoors() {
+async function editDoor(doorId, doorName, levelId, doorStatus) {
   let results;
+  
+  let doorData = "door_id=" + doorId + "&door_identifier=" + doorName + "&door_access_level_id=" + levelId + "&is_active=" + doorStatus;
 
-  await fetch(api.allDoors, token)
-    .then(res => {
-      if (res.ok) return res.json();
-      else throw new Error(res.status);
-    })
-    .then(doors => {
-      if (doors.payload) results = doors.payload;
-    })
-    .catch((err) => location.href = "./login.html");
+  await fetch(api.editDoor + "?" + doorData, { headers: token })
+    .then(res => res.json())
+    .then(doorRes => results = doorRes);
 
   return results;
 }
 
-export { showAllLevels, addNewDoor, showAllDoors };
+async function deleteDoor(doorId) {
+  let results;
+  
+  await fetch(api.delDoor + "?door_id=" + doorId, { headers: token })
+    .then(res => res.json())
+    .then(doorRes => results = doorRes);
+
+  return results;
+}
+
+export { showAllLevels, showAllDoors, showAllCards, addNewDoor, editDoor, deleteDoor };

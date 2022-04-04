@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <link rel="stylesheet" type="text/css" href="css/classes.css">
+    <link rel="stylesheet" type="text/css" href="css/modal.css">
 
     <!-- JAVASCRIPT LIBRARIES -->
     <script>window.$ = window.jQuery = require("jquery");</script>
@@ -30,63 +31,67 @@
     <script defer type="module" src="js/tabs.js"></script>
   </head>
   <body>
-    <!-- DOOR INNER MODAL -->
+    <!-- INNER MODAL -->
     <div id="inner-modal" class="ui mini coupled modal">
       <div id="inner-modal-title" class="header"></div>
       <div class="content">
         <p id="inner-modal-message"></p>
       </div>
       <div class="actions">
-        <div id="inner-modal-button" class="ui cancel fluid basic button">GOT IT</div>
+        <div id="inner-modal-button" class="ui cancel fluid basic button"></div>
+      </div>
+    </div>
+    
+    <!-- INNER QUESTION MODAL -->
+    <div id="inner-question-modal" class="ui mini coupled modal">
+      <div id="inner-question-modal-title" class="header"></div>
+      <div class="content">
+        <p id="inner-question-modal-message"></p>
+      </div>
+      <div class="actions">
+        <div class="ui cancel fluid basic button">NO</div>
+        <div class="ui approve fluid basic button">YES</div>
       </div>
     </div>
 
-    <!-- DOOR OUTER MODAL -->
+    <!-- OUTER MODAL -->
     <div id="outer-modal" class="ui mini coupled modal">
       <div id="outer-modal-title" class="header"></div>
       <div class="content">
         <p id="outer-modal-message"></p>
       </div>
       <div class="actions">
-        <div id="outer-modal-button" class="ui cancel fluid basic button">GOT IT</div>
+        <div id="outer-modal-button" class="ui cancel fluid basic button"></div>
       </div>
     </div>
 
     <!-- MAIN CONTENT -->
     <div id="app-wrapper">
       <!-- TAB BUTTONS -->
-      <div id="app-sidemenu" class="ui secondary vertical pointing menu">
-        <p class="ui left aligned horizontal divider" style="margin-left: 15px;">Main</p>
-        <a class="item" data-tab="dashboard">Dashboard</a>
-
-        <p class="ui left aligned horizontal divider" style="margin-left: 15px;">Actions</p>
-        <a class="item" data-tab="card-reg">Card Registration</a>
-
-        <p class="ui left aligned horizontal divider" style="margin-left: 15px;">Doors</p>
+      <div id="app-sidemenu" class="ui secondary vertical menu">
+        <a class="item" data-tab="all-clients">All Clients</a>
+        <div class="ui fitted divider" style="margin-top: -4px;"></div>
+        <a class="item" data-tab="client-reg">Client Registration</a>
+        <div class="ui fitted divider" style="margin-top: -4px;"></div>
         <a id="all-doors-tab-btn" class="item" data-tab="all-doors">All Doors</a>
-        <a class="item" data-tab="doors-unav">Unavailable Doors</a>
-        <a class="item" data-tab="doors-brok">Broken Doors</a>
-        <a class="item" data-tab="door-lvl">Door Levels</a>
-
-        <p class="ui left aligned horizontal divider" style="margin-left: 15px;">Cards</p>
-        <a class="item" data-tab="all-cards">All Cards</a>
-        <a class="item" data-tab="cards-unav">Unavailable Cards</a>
-        <a class="item" data-tab="cards-brok">Broken Cards</a>
-        <a class="item" data-tab="cards-occu">Occupied Cards</a>
-        
-        <p class="ui left aligned horizontal divider" style="margin-left: 15px;">System</p>
+        <div class="ui fitted divider" style="margin-top: -4px;"></div>
+        <a id="all-levels-tab-btn" class="item" data-tab="all-levels">All Levels</a>
+        <div class="ui fitted divider" style="margin-top: -4px;"></div>
+        <a id="all-cards-tab-btn" class="item" data-tab="all-cards">All Cards</a>
+        <div class="ui fitted divider" style="margin-top: -4px;"></div>
         <a class="item" data-tab="logs">System Logs</a>
+        <div class="ui fitted divider" style="margin-top: -4px;"></div>
         <a class="item" data-tab="access-list">Access List</a>
-
-        <p class="ui left aligned horizontal divider" style="margin-left: 15px;">Account</p>
-        <a class="item" data-tab="sett">Settings</a>
+        <div class="ui fitted divider" style="margin-top: -4px;"></div>
+        <a class="item" data-tab="users">Users</a>
+        <div class="ui fitted divider" style="margin-top: -4px;"></div>
         <a class="item">Logout</a>
       </div>
 
-      <!-- DASHBOARD TAB CONTENT -->
-      <div class="app-content ui right attached tab segment" data-tab="dashboard">
-        <div class="content-header">
-          <h3>DASHBOARD</h3>
+      <!-- ALL USERS TAB CONTENT -->
+      <div class="app-content ui right attached tab segment" data-tab="all-clients">
+        <div class="content-header-title">
+          <h3>ALL CLIENTS</h3>
         </div>
 
         <div class="ui icon input" style="float: right;">
@@ -179,9 +184,9 @@
       </div>
 
       <!-- USER CARD REGISTRATION TAB CONTENT -->
-      <div class="app-content ui right attached active tab segment" data-tab="card-reg">
-        <div class="content-header">
-          <h3>USER CARD REGISTRATION</h3>
+      <div class="app-content ui right attached active tab segment" data-tab="client-reg">
+        <div class="content-header-title">
+          <h3>USER REGISTRATION</h3>
         </div>
         <div class="ui form">
           <div class="field">
@@ -302,18 +307,10 @@
 
       <!-- ALL DOORS TAB CONTENT -->
       <div class="app-content ui right attached tab segment" data-tab="all-doors">
-        <div class="content-header">
-          <h3>ALL DOORS</h3>
-        </div>
-
-        <div id="door-list-search" class="ui icon input" style="float: right;">
-          <input type="text" placeholder="Search...">
-          <i class="search icon"></i>
-        </div>
 
         <!-- ADD NEW DOOR MODAL -->
-        <div id="add-door-modal" class="ui tiny coupled modal">
-          <div class="header">Add New Door</div>
+        <div id="door-modal" class="ui tiny coupled modal">
+          <div id="door-modal-title" class="header">Add New Door</div>
           <div class="content">
             <div class="ui form">
               <div class="field">
@@ -325,49 +322,136 @@
                 <input id="door-number-input" type="text" placeholder="Enter Door Number">
               </div>
               <div class="field">
-                <label for="email">Door Level</label>
+                <label for="door-level-select">Door Level</label>
                 <select id="door-level-select" class="ui fluid search dropdown ui-dropdown">
                   <option value="">Select Level</option>
+                </select>
+              </div>
+              <div id="door-status-field" class="field hidden-modal-element">
+                <label for="door-status-select">Door Status</label>
+                <select id="door-status-select" class="ui fluid search dropdown ui-dropdown">
+                  <option value="">Select Status</option>
+                  <option value="0">Available</option>
+                  <option value="1">Unavailable</option>
                 </select>
               </div>
             </div>
           </div>
           <div class="actions">
+            <div id="delete-door-btn" class="ui basic button optional-modal-btn hidden-modal-element"><i class="fas fa-times"></i> Delete</div>
             <div id="close-door-modal" class="ui cancel red button"><i class="fas fa-times"></i> Cancel</div>
-            <div id="add-door-btn" class="ui approve green button"><i class="fas fa-check"></i> Add Door</div>
+            <div id="main-door-btn" class="ui approve green button main-modal-btn add-door-btn"><i class="fas fa-check"></i> Add Door</div>
           </div>
         </div>
-        
-        <!-- DOOR PAGE -->
-        <button id="open-new-door-modal" class="ui blue button"><i class="plus icon"></i> Add New Door</button>
 
-        <table class="ui celled table">
-          <thead>
-            <tr>
-              <th>Door Tag Name</th>
-              <th>Door Number</th>
-              <th>Door Level</th>
-              <th>Door Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="all-doors-table-content">
-            <tr data-door-id="id">
-              <td data-label="tag">Door A1</td>
-              <td data-label="door">A1</td>
-              <td data-label="door-lvl"></td>
-              <td data-label="doorstat">Available</td>
-              <td data-label="action">
-                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="app-content-header">
+          <div class="content-header-title">
+            <h3>ALL DOORS</h3>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <button id="open-new-door-modal" class="ui blue button"><i class="plus icon"></i> Add New Door</button>
+          </div>
+  
+          <div id="door-list-search" class="ui icon input" style="float: right;">
+            <input type="text" placeholder="Search...">
+            <i class="search icon"></i>
+          </div>
+
+          <div id="doors-filter" class="ui tiny compact menu">
+            <a class="item active">
+              <i class="fas fa-th-list"></i>
+              All
+            </a>
+            <a class="item">
+              <i class="fas fa-check"></i>
+              Available
+            </a>
+            <a class="item">
+              <i class="fas fa-times"></i>
+              Unavailable
+            </a>
+          </div>
+
+        </div>
+        
+        <div class="table-wrapper-fixed">
+          <table class="ui celled table">
+            <thead>
+              <tr>
+                <th>Door Tag Name</th>
+                <th>Door Number</th>
+                <th>Door Level</th>
+                <th>Door Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="all-doors-table-content">
+              <tr data-door-id="id">
+                <td data-label="tag">Door A1</td>
+                <td data-label="door">A1</td>
+                <td data-label="door-lvl"></td>
+                <td data-label="doorstat">Available</td>
+                <td data-label="action">
+                  <button class="ui tiny basic button" data-btn-info="door-edit-button"><i class="edit icon"></i> Edit</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ALL LEVELS TAB CONTENT -->
+      <div class="app-content ui right attached tab segment" data-tab="all-levels">
+
+        <!-- ADD NEW LEVEL MODAL -->
+        <div id="add-level-modal" class="ui tiny coupled modal">
+          <div class="header">Add New Level</div>
+          <div class="content">
+            <div class="ui form">
+              <div class="field">
+                <label for="level-name-input">Level Name</label>
+                <input id="level-name-input" type="text" placeholder="Enter Level Name (e.g. Level 1, Ground Level, etc)"">
+              </div>
+            </div>
+          </div>
+          <div class="actions">
+            <div id="close-level-modal" class="ui cancel red button"><i class="fas fa-times"></i> Cancel</div>
+            <div id="add-level-btn" class="ui approve green button"><i class="fas fa-check"></i> Add Level</div>
+          </div>
+        </div>
+
+        <div class="app-content-header">
+          <div class="content-header-title">
+            <h3>ALL LEVELS</h3>
+          </div>
+          
+          <button id="open-new-level-modal" class="ui blue button"><i class="plus icon"></i> Add New Level</button>
+        </div>
+        
+        <div class="table-wrapper">
+          <table class="ui unstackable table">
+            <thead>
+              <tr>
+                <th>Level Name</th>
+                <th class="right aligned"></th>
+              </tr>
+            </thead>
+            <tbody id="all-levels-table-content">
+              <tr data-door-id="id">
+                <td data-label="lvl">Level 1</td>
+                <td class="right aligned" data-label="action">
+                  <button class="ui tiny basic button"><i class="trash icon"></i> Remove</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <!-- ALL CARDS TAB CONTENT -->
       <div class="app-content ui right attached tab segment" data-tab="all-cards">
-        <div class="content-header">
+        <div class="content-header-title">
           <h3>ALL CARDS</h3>
         </div>
 
@@ -378,57 +462,31 @@
 
         <button id="register-card-btn" class="ui blue button"><i class="plus icon"></i> Register New Card</button>
 
-        <table class="ui celled table">
-          <thead>
-            <tr>
-              <th>Card UID</th>
-              <th>Card Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="card-table-content">
-            <tr>
-              <td data-label="uid">F1 5C FC CC</td>
-              <td data-label="cardstat">Available</td>
-              <td data-label="action">
-                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
-              </td>
-            </tr>
-            <tr>
-              <td data-label="uid">1A 5C CC BC</td>
-              <td data-label="cardstat">Available</td>
-              <td data-label="action">
-                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
-              </td>
-            </tr>
-            <tr>
-              <td data-label="uid">FA 5C FC 6B</td>
-              <td data-label="cardstat">Available</td>
-              <td data-label="action">
-                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
-              </td>
-            </tr>
-            <tr>
-              <td data-label="uid">AA CC 5F BB</td>
-              <td data-label="cardstat">Available</td>
-              <td data-label="action">
-                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
-              </td>
-            </tr>
-            <tr>
-              <td data-label="uid">BA FF C9 0E</td>
-              <td data-label="cardstat">Available</td>
-              <td data-label="action">
-                <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-wrapper">
+          <table class="ui celled table">
+            <thead>
+              <tr>
+                <th>Card UID</th>
+                <th>Card Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="all-cards-table-content">
+              <tr>
+                <td data-label="uid">F1 5C FC CC</td>
+                <td data-label="cardstat">Available</td>
+                <td data-label="action">
+                  <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       
       <!-- LOGS TAB CONTENT -->
       <div class="app-content ui right attached tab segment" data-tab="logs">
-        <div class="content-header">
+        <div class="content-header-title">
           <h3>SYSTEM LOGS</h3>
         </div>
 
@@ -458,15 +516,15 @@
       
       <!-- ACCESS LIST TAB CONTENT -->
       <div class="app-content ui right attached tab segment" data-tab="access-list">
-        <div class="content-header">
+        <div class="content-header-title">
           <h3>ACCESS LIST</h3>
         </div>
       </div>
 
       <!-- SETTINGS TAB CONTENT -->
-      <div class="app-content ui right attached tab segment" data-tab="sett">
-        <div class="content-header">
-          <h3>SETTINGS</h3>
+      <div class="app-content ui right attached tab segment" data-tab="users">
+        <div class="content-header-title">
+          <h3>USERS</h3>
         </div>
       </div>
     </div>

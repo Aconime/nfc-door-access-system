@@ -5,6 +5,19 @@
   -webkit-user-drag: none !important;
 }
 
+*::-webkit-scrollbar {
+  width: 4px !important;
+}
+ 
+*::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
+ 
+*::-webkit-scrollbar-thumb {
+  background-color: #2185d0 !important;
+  border-radius: 100px;
+}
+
 body {
   overflow: hidden !important;
   background-color: #fff;

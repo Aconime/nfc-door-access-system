@@ -1,4 +1,4 @@
-import * as api from './global/api.js';
+import * as api from '../global/api.js';
 
 window.onload = () => localStorage.clear();
 

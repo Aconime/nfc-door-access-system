@@ -1,0 +1,12 @@
+.hidden-modal-element {
+  display: none !important;
+}
+
+.main-modal-btn {
+  margin-right: 8px !important;
+}
+
+.optional-modal-btn {
+  float: left !important;
+  margin-left: 8px !important;
+}

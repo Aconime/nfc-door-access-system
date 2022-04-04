@@ -12,12 +12,12 @@
 
 .app-content {
   overflow-y: auto;
-  width: calc(100% - 250px) !important;
+  width: calc(100% - 238px) !important;
   height: 100%;
   padding-bottom: 15px;
 }
 
-.content-header {
+.content-header-title {
   height: 35px;
   line-height: 35px;
   margin-bottom: 15px;
@@ -31,6 +31,33 @@
   padding-top: 15px;
 }
 
+.table-wrapper-fixed {
+  margin-top: 20px;
+  overflow-y: auto;
+  max-height: calc(100vh - 186px);
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  border-radius: 4px;
+}
+
+.table-wrapper {
+  margin-top: 20px;
+  overflow-y: auto;
+  max-height: calc(100vh - 135px);
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  border-radius: 4px;
+}
+
 tr:hover {
   background-color: rgba(0, 0, 0, 0.04);
+}
+
+table {
+  border: none !important;
+}
+
+table > thead {
+  position: sticky;
+  z-index: 1000;
+  top: 0;
+  background: white;
 }

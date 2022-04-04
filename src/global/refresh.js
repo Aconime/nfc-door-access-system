@@ -29,17 +29,69 @@ async function refreshAllDoorsList() {
     if (!levelFound) doorListItem += `<td data-label="door-lvl">-</td>`;
 
     
-    if (allDoors[i].is_active == 0) doorListItem += `<td data-label="doorstat">Broken</td>`;
+    if (allDoors[i].is_active == 0) doorListItem += `<td data-label="doorstat">Unavailable</td>`;
     else if (allDoors[i].is_active == 1) doorListItem += `<td data-label="doorstat">Available</td>`;
-    else if (allDoors[i].is_active == 2) doorListItem += `<td data-label="doorstat">Unavailable</td>`;
         
     doorListItem += `<td data-label="action">
-          <button class="ui tiny basic button"><i class="edit icon"></i> Edit</button>
+          <button id="dr-ed-btn-${i}" class="ui tiny basic button edit-btn"><i class="edit icon"></i> Edit</button>
         </td>
       </tr>`;
 
     allDoorsTableContent.innerHTML += doorListItem;
   }
+
+  let refreshResult = []
+  const editButtons = document.getElementsByClassName('edit-btn');
+  for (let i = 0; i <= editButtons.length -1; i++) {
+    let doorId = editButtons[i].parentNode.parentNode.getAttribute('data-door-id');
+    refreshResult.push({
+      "door_id": doorId,
+      "button_id": editButtons[i].id.toString()
+    });
+  }
+
+  return refreshResult;
 }
 
-export { refreshAllDoorsList };
+async function refreshAllLevelsList() {
+  const allLevelsTableContent = document.getElementById("all-levels-table-content");
+  allLevelsTableContent.innerHTML = "";
+
+  let allLevels = await call.showAllLevels();
+
+  for (let i = 0; i <= allLevels.length - 1; i++)
+    allLevelsTableContent.innerHTML += `<tr data-door-id="${allLevels[i].level_id}">
+        <td data-label="lvl">${allLevels[i].level}</td>
+        <td class="right aligned" data-label="action">
+          <button class="ui tiny basic button" data-btn-info="level-action"><i class="trash icon"></i> Remove</button>
+        </td>
+      </tr>`;
+}
+
+async function refreshAllCardsList() {
+  const allCardsTableContent = document.getElementById("all-cards-table-content");
+  allCardsTableContent.innerHTML = "";
+
+  let allCards = await call.showAllCards();
+
+  for (let i = 0; i <= allCards.length - 1; i++) {
+    let cardListItem = `<tr id="${allCards[i].card_id}">
+      <td data-label="uid">${allCards[i].uid}</td>`;
+
+    if (allCards[i].is_active == 0) 
+      cardListItem += `<td data-label="cardstat">Available</td>`
+    else if (allCards[i].is_active == 1) 
+      cardListItem += `<td data-label="cardstat">Occupied</td>`;
+    else if (allCards[i].is_active == 2) 
+      cardListItem += `<td data-label="cardstat">Broken</td>`;
+    
+    cardListItem += `<td data-label="action">
+          <button class="ui tiny basic button" data-btn-info="cards-action"><i class="edit icon"></i> Edit</button>
+        </td>
+      </tr>`;
+
+    allCardsTableContent.innerHTML += cardListItem;
+  }
+}
+
+export { refreshAllDoorsList, refreshAllLevelsList, refreshAllCardsList };
