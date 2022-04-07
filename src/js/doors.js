@@ -161,7 +161,9 @@ async function mainDoorModalFunction(actionType) {
           let doorStatusValue;
 
           if (doorStatus.value == 0) doorStatusValue = 1;
-          else doorStatusValue = 0;
+          else if (doorStatus.value == 1) doorStatusValue = 0;
+
+          console.log(doorStatusValue);
 
           let editDoorResult = await call.editDoor(globalDoorId, doorIdentifier, doorLevel.value, doorStatusValue);
           if (editDoorResult.success == "true") {

@@ -1,4 +1,5 @@
 import * as api from './api.js';
+import * as modals from './modals.js';
 
 // User Token
 const token = { 'x-authorization-token': localStorage.getItem('userToken') }
@@ -112,9 +113,178 @@ async function deleteLevel(levelId) {
 
   await fetch(api.delLevel + "?level_id=" + levelId, { headers: token })
     .then(res => res.json())
-    .then(levelRes => results = levelRes);
+    .then(levelRes => results = levelRes)
+    .catch(err => {
+      results = err;
+      modals.showInnerModal("Cannot Delete Level", "This level is being used by one or more doors, please edit the doors before removing a level.");
+    });
+
+  
+  return results;
+}
+
+async function addNewClientWithDoors(fname, lname, email, card, doors, status, hasExp=false, expDate=null) {
+  let results;
+  
+  let registrationData = "";
+  if (hasExp)
+    registrationData = `first_name=${fname}&last_name=${lname}&email=${email}&type_of_access=Standard&cards=${card}&doors=${doors}&is_active=${status}&expires_at=${expDate}`;
+  else
+    registrationData = `first_name=${fname}&last_name=${lname}&email=${email}&type_of_access=Standard&cards=${card}&doors=${doors}&is_active=${status}`;
+
+  await fetch(api.addClient + "?" + registrationData, { headers: token })
+    .then(res => res.json())
+    .then(clientRes => results = clientRes);
 
   return results;
 }
 
-export { showAllLevels, showAllDoors, showAllCards, showAllClients, getAllClients, addNewDoor, editDoor, deleteDoor, addNewLevel, deleteLevel };
+async function addNewClientWithLevels(fname, lname, email, card, levels, status, hasExp=false, expDate=null) {
+  let results;
+
+  let registrationData = "";
+  if (hasExp)
+    registrationData = `first_name=${fname}&last_name=${lname}&email=${email}&type_of_access=Standard&cards=${card}&levels=${levels}&is_active=${status}&expires_at=${expDate}`;
+  else
+    registrationData = `first_name=${fname}&last_name=${lname}&email=${email}&type_of_access=Standard&cards=${card}&levels=${levels}&is_active=${status}`;
+
+  await fetch(api.addClient + "?" + registrationData, { headers: token })
+    .then(res => res.json())
+    .then(clientRes => results = clientRes);
+
+  return results;
+}
+
+async function addNewClientWithBoth(fname, lname, email, card, doors, levels, status, hasExp=false, expDate=null) {
+  let results;
+  
+  let registrationData = "";
+  if (hasExp)
+    registrationData = `first_name=${fname}&last_name=${lname}&email=${email}&type_of_access=Standard&cards=${card}&doors=${doors}&levels=${levels}&is_active=${status}&expires_at=${expDate}`;
+  else
+    registrationData = `first_name=${fname}&last_name=${lname}&email=${email}&type_of_access=Standard&cards=${card}&doors=${doors}&levels=${levels}&is_active=${status}`;
+
+  await fetch(api.addClient + "?" + registrationData, { headers: token })
+    .then(res => res.json())
+    .then(clientRes => results = clientRes);
+
+  return results;
+}
+
+async function addNewAdminClient(fname, lname, email, card, status, hasExp=false, expDate=null) {
+  let results;
+  
+  let registrationData = `first_name=${fname}&last_name=${lname}&email=${email}&type_of_access=Administrator&cards=${card}&is_active=${status}`;
+  
+  await fetch(api.addClient + "?" + registrationData, { headers: token })
+    .then(res => res.json())
+    .then(clientRes => results = clientRes);
+
+  return results;
+}
+
+async function checkEmailAddress(email) {
+  let result;
+
+  await fetch(api.checkEmail + "?email=" + email, { header: token })
+    .then(res => res.json())
+    .then(userId => result = userId);
+
+  return result;
+}
+
+async function editCardClientDoors(userId, fname, lname, email, card, status, doors, hasExp=false, expDate=null) {
+  let result;
+
+  let clientData = "";
+  if (hasExp) 
+    clientData = `user_id=${userId}&first_name=${fname}&last_name=${lname}&email=${email}&type_of_access=Standard&cards=${card}&doors=${doors}&is_active=${status}&expires_at=${expDate}`;
+  else
+    clientData = `user_id=${userId}&first_name=${fname}&last_name=${lname}&email=${email}&type_of_access=Standard&cards=${card}&doors=${doors}&is_active=${status}`;
+
+  await fetch(api.editClient + "?" + clientData, { header: token })
+    .then(res => res.json())
+    .then(clientRes => result = clientRes);
+
+  return result;
+}
+
+async function editCardClientLevels(userId, fname, lname, email, card, status, levels, hasExp=false, expDate=null) {
+  let result;
+
+  let clientData = "";
+  if (hasExp) 
+    clientData = `user_id=${userId}&first_name=${fname}&last_name=${lname}&email=${email}&type_of_access=Standard&cards=${card}&levels=${levels}&is_active=${status}&expires_at=${expDate}`;
+  else
+    clientData = `user_id=${userId}&first_name=${fname}&last_name=${lname}&email=${email}&type_of_access=Standard&cards=${card}&levels=${levels}&is_active=${status}`;
+
+  await fetch(api.editClient + "?" + clientData, { header: token })
+    .then(res => res.json())
+    .then(clientRes => result = clientRes);
+
+  return result;
+}
+
+async function editCardClientBoth(userId, fname, lname, email, card, status, doors, levels, hasExp=false, expDate=null) {
+  let result;
+
+  let clientData = "";
+  if (hasExp) 
+    clientData = `user_id=${userId}&first_name=${fname}&last_name=${lname}&email=${email}&type_of_access=Standard&cards=${card}&doors=${doors}&levels=${levels}&is_active=${status}&expires_at=${expDate}`;
+  else
+    clientData = `user_id=${userId}&first_name=${fname}&last_name=${lname}&email=${email}&type_of_access=Standard&cards=${card}&doors=${doors}&levels=${levels}&is_active=${status}`;
+
+  await fetch(api.editClient + "?" + clientData, { header: token })
+    .then(res => res.json())
+    .then(clientRes => result = clientRes);
+
+  return result;
+}
+
+
+async function editCardClientAsAdmin(userId, fname, lname, email, card, status=1) {
+  let result;
+
+  let clientData = `user_id=${userId}&first_name=${fname}&last_name=${lname}&email=${email}&type_of_access=Administrator&cards=${card}&is_active=${status}`;
+
+  await fetch(api.editClient + "?" + clientData, { header: token })
+    .then(res => res.json())
+    .then(clientRes => result = clientRes);
+
+  return result;
+}
+
+async function clientUpdateStatus(userId, status) {
+  let result;
+
+  let clientData = `user_id=${userId}&is_active=${status}`;
+
+  await fetch(api.editClientStatus + "?" + clientData, { header: token })
+    .then(res => res)
+    .then(clientRes => result = clientRes);
+
+  return result;
+}
+
+export { 
+  showAllLevels,
+  showAllDoors,
+  showAllCards,
+  showAllClients,
+  getAllClients,
+  addNewDoor,
+  editDoor,
+  deleteDoor,
+  addNewLevel,
+  deleteLevel,
+  addNewClientWithDoors,
+  addNewClientWithLevels,
+  addNewClientWithBoth,
+  addNewAdminClient,
+  checkEmailAddress,
+  editCardClientBoth,
+  editCardClientDoors,
+  editCardClientLevels,
+  editCardClientAsAdmin,
+  clientUpdateStatus
+};

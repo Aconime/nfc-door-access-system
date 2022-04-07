@@ -72,7 +72,7 @@
       <div id="app-sidemenu" class="ui secondary vertical menu">
         <a id="all-clients-tab-btn" class="item" data-tab="all-clients">All Clients</a>
         <div class="ui fitted divider" style="margin-top: -4px;"></div>
-        <a class="item" data-tab="client-reg">Client Registration</a>
+        <a id="register-client-tab-btn" class="item" data-tab="client-reg">Client Registration</a>
         <div class="ui fitted divider" style="margin-top: -4px;"></div>
         <a id="all-doors-tab-btn" class="item" data-tab="all-doors">All Doors</a>
         <div class="ui fitted divider" style="margin-top: -4px;"></div>
@@ -81,10 +81,6 @@
         <a id="all-cards-tab-btn" class="item" data-tab="all-cards">All Cards</a>
         <div class="ui fitted divider" style="margin-top: -4px;"></div>
         <a class="item" data-tab="logs">System Logs</a>
-        <div class="ui fitted divider" style="margin-top: -4px;"></div>
-        <a class="item" data-tab="access-list">Access List</a>
-        <div class="ui fitted divider" style="margin-top: -4px;"></div>
-        <a class="item" data-tab="users">Users</a>
         <div class="ui fitted divider" style="margin-top: -4px;"></div>
         <a class="item">Logout</a>
       </div>
@@ -161,11 +157,15 @@
       <!-- USER CARD REGISTRATION TAB CONTENT -->
       <div class="app-content ui right attached active tab segment" data-tab="client-reg">
         <div class="content-header-title">
-          <h3>USER REGISTRATION</h3>
+          <h3 id="user-reg-title-heading">CLIENT REGISTRATION</h3>
         </div>
         <div class="ui form">
           <div class="field">
             <h4 class="ui dividing header">User Information</h4>
+            <div class="field">
+              <label for="email">Email Address</label>
+              <input id="email" type="text" placeholder="Enter User's Email Address">
+            </div>
             <label>Name</label>
             <div class="two fields">
               <div class="field">
@@ -175,35 +175,29 @@
                 <input id="lname" type="text" placeholder="Enter User's Last Name">
               </div>
             </div>
-            <div class="field">
-              <label for="email">Email Address</label>
-              <input id="email" type="text" placeholder="Enter User's Email Address">
-            </div>
             <h4 class="ui dividing header">Card Configuration</h4>
             <div class="field">
               <label>Select Card</label>
               <select id="card-selection" class="ui fluid search dropdown ui-dropdown">
                 <option value="">Select Card UID</option>
-                <option value="1">FF 9C 89 0A</option>
-                <option value="2">DF D3 0C CA</option>
               </select>
             </div>
             <label>Type of Card</label>
             <div class="inline fields">
               <div class="field">
                 <div class="ui radio checkbox">
-                  <input id="adminrad" type="radio" name="cardlevel" checked="checked">
+                  <input id="adminrad" type="radio" name="cardlevel">
                   <label for="adminrad">Administrator Access</label>
                 </div>
               </div>
               <div class="field">
                 <div class="ui radio checkbox">
-                  <input id="standrad" type="radio" name="cardlevel">
+                  <input id="standrad" type="radio" name="cardlevel" checked="checked">
                   <label for="standrad">Standard Access</label>
                 </div>
               </div>
             </div>
-            <div id="card-access-warning" class="ui icon message">
+            <div id="card-access-warning" class="ui icon message card-access-hide">
               <i class="fas fa-exclamation-triangle fa-3x" style="color: #f39c12; margin-right: 20px !important;"></i>
               <div class="content">
                 <div class="header">
@@ -216,24 +210,18 @@
                 </p>
               </div>
             </div>
-            <div id="togglable-visible-content" class="card-access-hide">
+            <div id="togglable-visible-content">
               <div class="field">
                 <label>Select Doors</label>
                 <select id="door-selection" class="ui fluid search dropdown ui-dropdown" multiple="">
-                  <option value="">Select Door(s)</option>
-                  <option value="A1">Door A1</option>
-                  <option value="A2">Door A2</option>
-                  <option value="A3">Door A3</option>
-                  <option value="A4">Door A4</option>
+                  <option value="">Select Doors</option>
                 </select>
               </div>
 
               <div class="field">
                 <label>Select Levels</label>
                 <select id="level-selection" class="ui fluid search dropdown ui-dropdown" multiple="">
-                  <option value="">Select Level(s)</option>
-                  <option value="A1">Level 1</option>
-                  <option value="A2">Level 2</option>
+                  <option value="">Select Levels</option>
                 </select>
               </div>
               <h4 class="ui dividing header">Additional Options</h4>
@@ -242,7 +230,7 @@
                 <input id="expdate" type="datetime-local" style="margin-bottom: 8px;">
   
                 <div class="ui checkbox">
-                  <input id="expdatecheck" type="checkbox" checked="checked">
+                  <input id="expdatecheck" type="checkbox">
                   <label for="expdatecheck">No Expiration</label>
                 </div>
               </div>
@@ -251,7 +239,7 @@
         </div>
         <div class="content-footer">
           <div id="activate-card-btn" class="ui blue button" style="margin-right: 10px;"><i class="fas fa-check"></i> Activate Card</div>
-          <div id="activate-card-btn" class="ui grey button"><i class="fas fa-clock"></i> Activate Card Later</div>
+          <div id="pedning-card-btn" class="ui grey button"><i class="fas fa-clock"></i> Activate Card Later</div>
           <div id="reset-form-btn" class="ui red button" style="float: right;"><i class="fas fa-sync"></i> Reset Form</div>
         </div>
       </div>
@@ -449,7 +437,7 @@
               <th>Category</th>
               <th>Message</th>
               <th>Severity</th>
-              <th>Reviewed By</th>
+              <th>Reviewed</th>
             </tr>
           </thead>
           <tbody id="door-table-content">
@@ -459,7 +447,7 @@
               <td data-label="log-cat">Access</td>
               <td data-label="log-msg">Access denied for Eugen on door A11.</td>
               <td data-label="log-severity">High</td>
-              <td data-label="log-reviewed">N/A</td>
+              <td data-label="log-reviewed"><button class="ui button basic fluid">NO</button></td>
             </tr>
           </tbody>
         </table>

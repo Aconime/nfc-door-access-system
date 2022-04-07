@@ -27,7 +27,6 @@ async function refreshAllDoorsList() {
     }
 
     if (!levelFound) doorListItem += `<td data-label="door-lvl">-</td>`;
-
     
     if (allDoors[i].is_active == 0) doorListItem += `<td data-label="doorstat">Unavailable</td>`;
     else if (allDoors[i].is_active == 1) doorListItem += `<td data-label="doorstat">Available</td>`;
@@ -114,7 +113,9 @@ async function refreshAllClients() {
   for (let i = 0; i <= allClients.length - 1; i++) {
     let allCardCliets = await call.getAllClients(allClients[i].user_id);
     if (allCardCliets.cards[0]) {
-      let clientsListItem = `<tr id="${allClients[i].user_id}">
+      let clientsListItem;
+
+      clientsListItem = `<tr id="${allClients[i].user_id}">
         <td data-label="cname">${allCardCliets.first_name + " " + allCardCliets.last_name}</td>
         <td data-label="cemail">${allCardCliets.email}</td>
         <td data-label="cuid">${allCardCliets.cards[0].uid}</td>`;
@@ -128,45 +129,71 @@ async function refreshAllClients() {
 
       clientDoors += allCardCliets.cards[0].doors[allCardCliets.cards[0].doors.length - 1].door_identifier.split(":")[1];
 
-      clientsListItem += `<td data-label="cdoor">${clientDoors}</td>
-      <td data-label="cexp">${allCardCliets.cards[0].expires_at}</td>`;
+      clientsListItem += `<td data-label="cdoor">${clientDoors}</td>`;
+      
+      if (allCardCliets.cards[0].expires_at == null || allCardCliets.cards[0].expires_at.length == 0) 
+        clientsListItem += `<td data-label="cexp">NO EXPIRY</td>`;
+      else {
+        clientsListItem += `<td data-label="cexp">${allCardCliets.cards[0].expires_at}</td>`;
+        
+        if (new Date(allCardCliets.cards[0].expires_at).setHours(0, 0, 0, 0) <= new Date().setHours(0, 0, 0, 0))
+          await call.clientUpdateStatus(allClients[i].user_id, 2);
+      }
 
-      if (allCardCliets.is_active == 0) 
+      if (allCardCliets.is_active == 0) {
+        console.log ("is active 0: " + allClients[i].user_id);
         clientsListItem += `<td data-label="cstat">
-            <div class="ui fluid label">
+            <div id="status-toggle-${allClients[i].user_id}" class="ui fluid label status-element">
               <div class="ui empty circular grey label" style="margin-top: 2px; float: left;"></div>
               <p style="text-align: center;">Pending</p>
             </div>
           </td>`;
-      else if (allCardCliets.is_active == 1)
+      } else if (allCardCliets.is_active == 1) {
+        console.log ("is active 1: " + allClients[i].user_id);
         clientsListItem += `<td data-label="cstat">
-            <div class="ui fluid label">
+            <div id="status-toggle-${allClients[i].user_id}" class="ui fluid label status-element">
               <div class="ui empty circular green label" style="margin-top: 2px; float: left;"></div>
               <p style="text-align: center;">Active</p>
             </div>
           </td>`;
-      else if (allCardCliets.is_active == 2)
+      } else if (allCardCliets.is_active == 2) {
+        console.log ("is active 2: " + allClients[i].user_id);
+        
         clientsListItem += `<td data-label="cstat">
-            <div class="ui fluid label">
+            <div id="status-toggle-${allClients[i].user_id}" class="ui fluid label status-element">
               <div class="ui empty circular red label" style="margin-top: 2px; float: left;"></div>
               <p style="text-align: center;">Expired</p>
             </div>
           </td>`;
-      else if (allCardCliets.is_active == 3)
-        clientsListItem += `<td data-label="cstat">
-            <div class="ui fluid label">
-              <div class="ui empty circular purple label" style="margin-top: 2px; float: left;"></div>
-              <p style="text-align: center;">Blocked</p>
-            </div>
-          </td>`;
+      }
 
       clientsListItem += `<td data-label="action">
             <button class="ui tiny basic button edit-client-btn"><i class="edit icon"></i> Edit</button>
           </td>
         </tr>`;
 
-      allClientsTableContent.innerHTML = clientsListItem;
+      allClientsTableContent.innerHTML += clientsListItem;
     }
+  }
+
+  const statusElements = document.querySelectorAll(".status-element");
+  for (let i = 0; i <= statusElements.length - 1; i++) {
+    statusElements[i].addEventListener("click", () => {
+      let getUserId = statusElements[i].id.toString().split("-")[2];
+      console.log(getUserId);
+      statusChangeMethod(getUserId);
+    });
+  }
+}
+
+async function statusChangeMethod(userId) {
+  let getClientStatus = await call.getAllClients(userId);
+  if (getClientStatus.is_active == 0) {
+    await call.clientUpdateStatus(userId, 1);
+    refreshAllClients();
+  } else if (getClientStatus.is_active == 1) {
+    await call.clientUpdateStatus(userId, 0);
+    refreshAllClients();
   }
 }
 

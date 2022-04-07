@@ -1,3 +1,7 @@
 .card-access-hide {
   display: none !important;
 }
+
+.hide-element {
+  display: none !important;
+}

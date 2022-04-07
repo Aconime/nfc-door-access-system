@@ -11,5 +11,9 @@ const editDoor = `${host.apiHost}/api/doors/edit`;
 const delDoor = `${host.apiHost}/api/doors/delete`;
 const addLevel = `${host.apiHost}/api/levels/add`;
 const delLevel = `${host.apiHost}/api/levels/delete`;
+const addClient = `${host.apiHost}/api/users/add`;
+const checkEmail = `${host.apiHost}/api/users/email`;
+const editClient = `${host.apiHost}/api/users/edit`;
+const editClientStatus = `${host.apiHost}/api/users/activate`;
 
-export { login, allLevels, allDoors, allCards, allClients, getClients, addDoor, editDoor, delDoor, addLevel, delLevel };
+export { login, allLevels, allDoors, allCards, allClients, getClients, addDoor, editDoor, delDoor, addLevel, delLevel, addClient, checkEmail, editClient, editClientStatus};
