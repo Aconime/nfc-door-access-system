@@ -15,6 +15,7 @@ if (loginButton) loginButton.addEventListener('click', () => {
       if (data.success == "true") {
         localStorage.setItem("userToken", data.api_token);
         localStorage.setItem("username", usernameField);
+        localStorage.setItem("userId", data.user_id);
 
         showLoginStatusBar("Login Successful", "Please wait while you are being redirected to the dashboard.", 0);
       } else {

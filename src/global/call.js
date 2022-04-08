@@ -260,11 +260,48 @@ async function clientUpdateStatus(userId, status) {
   let clientData = `user_id=${userId}&is_active=${status}`;
 
   await fetch(api.editClientStatus + "?" + clientData, { header: token })
-    .then(res => res)
+    .then(res => res.json())
     .then(clientRes => result = clientRes);
 
   return result;
 }
+
+async function showAllLogs() {
+  let results;
+
+  await fetch(api.allLogs, { header: token })
+    .then(res => res.json())
+    .then(logs => {
+      if (logs.payload) results = logs.payload;
+    });
+
+  return results;
+}
+
+async function showAllLogsWithParams(date) {
+  let results;
+
+  await fetch(api.allLogs + "?since=" + date, { header: token })
+    .then(res => res.json())
+    .then(logs => {
+      if (logs.payload) results = logs.payload;
+    });
+
+  return results;
+}
+
+async function investigateLog(logId, hasInvestigated) {
+  let result;
+
+  let logData = `log_id=${logId}&has_investigated=${hasInvestigated}`;
+
+  await fetch(api.reviewLogs + "?" + logData, { header: token })
+    .then(res => res.json())
+    .then(logRes => result = logRes);
+
+  return result;
+}
+
 
 export { 
   showAllLevels,
@@ -286,5 +323,8 @@ export {
   editCardClientDoors,
   editCardClientLevels,
   editCardClientAsAdmin,
-  clientUpdateStatus
+  clientUpdateStatus,
+  showAllLogs,
+  showAllLogsWithParams,
+  investigateLog
 };

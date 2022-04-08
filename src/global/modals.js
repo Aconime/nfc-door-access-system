@@ -32,4 +32,14 @@ function showOuternModal(title, message, buttonText = "OK", buttonCallback=()=>{
   $("#outer-modal").modal({ allowMultiple: true, closable: false, onDeny: () => buttonCallback() }).modal('show');
 }
 
-export { showInnerModal, showInnerQuestionModal, showOuternModal };
+function showOuternQuestionModal(title, message, yesClickedCallback=() => {}, finalCallback=() => {}) {
+  const modalTitle = document.getElementById("outer-question-modal-title");
+  const modalMessage = document.getElementById("outer-question-modal-message");
+
+  modalTitle.innerText = title;
+  modalMessage.innerText = message;
+
+  $("#outer-question-modal").modal({ allowMultiple: true, closable: false, onApprove: () => { yesClickedCallback() }, onHidden: () => finalCallback()}).modal('show');
+}
+
+export { showInnerModal, showInnerQuestionModal, showOuternModal, showOuternQuestionModal };

@@ -302,7 +302,6 @@ async function activateCardAndAddClient(regStatus) {
 let userEditId = "";
 
 emailInput.addEventListener("blur", async () => {
-  userEditId = "";
   await checkEmailAddress(emailInput.value);
 })
 
@@ -316,7 +315,6 @@ async function checkEmailAddress(email) {
     firstNameInput.value = userDetails.first_name;
     lastNameInput.value = userDetails.last_name;
     emailInput.value = userDetails.email;
-    console.log(userDetails.allow_global_level_access);
 
     if (userDetails.allow_global_level_access == 0) {
       cardAccessLevel(0);
@@ -360,8 +358,6 @@ async function editCardAndClient() {
   let levels = $("#level-selection").dropdown("get value");
   let expDate = expirationDateInput.value;
   let noExpDate = expirationDateCheck.checked;
-  
-  console.log( getDateFormat(1, expDate));
 
   if (firstName.length > 0 && lastName.length > 0 && email.length > 0 && cardId.length > 0) {
     if (standardAccessRadio.checked) {
@@ -453,8 +449,6 @@ async function editCardAndClient() {
       if (addClientResult.success == "true") {
         reloadTabContent();
         modals.showOuternModal("Success", "The client has been updated successfuly.");
-      } else {
-        console.log(addClientResult);
       }
     }
   } else {

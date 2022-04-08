@@ -26,6 +26,7 @@
     <script defer src="global/ui.js"></script>
 
     <!-- JAVASCRIPT INCLUDES -->
+    <script defer type="module" src="js/index.js"></script>
     <script defer type="module" src="js/cardreg.js"></script>
     <script defer type="module" src="js/doors.js"></script>
     <script defer type="module" src="js/levels.js"></script>
@@ -66,6 +67,18 @@
       </div>
     </div>
 
+    <!-- OUTER QUESTION MODAL -->
+    <div id="outer-question-modal" class="ui mini coupled modal">
+      <div id="outer-question-modal-title" class="header"></div>
+      <div class="content">
+        <p id="outer-question-modal-message"></p>
+      </div>
+      <div class="actions">
+        <div class="ui cancel green button">NO</div>
+        <div class="ui approve red button">YES</div>
+      </div>
+    </div>
+
     <!-- MAIN CONTENT -->
     <div id="app-wrapper">
       <!-- TAB BUTTONS -->
@@ -80,9 +93,9 @@
         <div class="ui fitted divider" style="margin-top: -4px;"></div>
         <a id="all-cards-tab-btn" class="item" data-tab="all-cards">All Cards</a>
         <div class="ui fitted divider" style="margin-top: -4px;"></div>
-        <a class="item" data-tab="logs">System Logs</a>
+        <a id="all-logs-tab-btn" class="item" data-tab="logs">System Logs</a>
         <div class="ui fitted divider" style="margin-top: -4px;"></div>
-        <a class="item">Logout</a>
+        <a id="logout-button" class="item">Logout</a>
       </div>
 
       <!-- ALL USERS TAB CONTENT -->
@@ -429,28 +442,30 @@
           <h3>SYSTEM LOGS</h3>
         </div>
 
-        <table class="ui celled table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Category</th>
-              <th>Message</th>
-              <th>Severity</th>
-              <th>Reviewed</th>
-            </tr>
-          </thead>
-          <tbody id="door-table-content">
-            <tr>
-              <td data-label="log-date">03/17/2022</td>
-              <td data-label="log-time">12:48 PM</td>
-              <td data-label="log-cat">Access</td>
-              <td data-label="log-msg">Access denied for Eugen on door A11.</td>
-              <td data-label="log-severity">High</td>
-              <td data-label="log-reviewed"><button class="ui button basic fluid">NO</button></td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-wrapper">
+          <table class="ui celled table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Category</th>
+                <th>Message</th>
+                <th>Severity</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="all-logs-table-content">
+              <tr>
+                <td data-label="log-date">03/17/2022</td>
+                <td data-label="log-time">12:48 PM</td>
+                <td data-label="log-cat">Access</td>
+                <td data-label="log-msg">Access denied for Eugen on door A11.</td>
+                <td data-label="log-severity">High</td>
+                <td data-label="log-reviewed"><button class="ui button basic fluid">NO</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       
       <!-- ACCESS LIST TAB CONTENT -->

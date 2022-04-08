@@ -87,7 +87,7 @@ async function refreshAllCardsList() {
 
   for (let i = 0; i <= allCards.length - 1; i++) {
     let cardListItem = `<tr id="${allCards[i].card_id}">
-      <td data-label="uid">${allCards[i].uid}</td>`;
+      <td data-label="uid">${allCards[i].uid.toUpperCase()}</td>`;
 
     if (allCards[i].is_active == 0) 
       cardListItem += `<td data-label="cardstat">Available</td>`
@@ -118,21 +118,26 @@ async function refreshAllClients() {
       clientsListItem = `<tr id="${allClients[i].user_id}">
         <td data-label="cname">${allCardCliets.first_name + " " + allCardCliets.last_name}</td>
         <td data-label="cemail">${allCardCliets.email}</td>
-        <td data-label="cuid">${allCardCliets.cards[0].uid}</td>`;
+        <td data-label="cuid">${allCardCliets.cards[0].uid.toUpperCase()}</td>`;
 
-      let clientDoors = "";
+      let clientDoorsAndLevels = "";
 
-      for (let j = 0; j <= allCardCliets.cards[0].doors.length - 2; j++) {
+      for (let j = 0; j <= allCardCliets.cards[0].doors.length - 1; j++) {
         let doorTag = allCardCliets.cards[0].doors[j].door_identifier.split(":")[1];
-        clientDoors += doorTag + ", ";
+        clientDoorsAndLevels += doorTag + ", ";
       }
 
-      clientDoors += allCardCliets.cards[0].doors[allCardCliets.cards[0].doors.length - 1].door_identifier.split(":")[1];
+      for (let j = 0; j <= allCardCliets.cards[0].levels.length - 2; j++) {
+        let levels = allCardCliets.cards[0].levels[j].level;
+        clientDoorsAndLevels += levels + ", ";
+      }
 
-      clientsListItem += `<td data-label="cdoor">${clientDoors}</td>`;
+      clientDoorsAndLevels += allCardCliets.cards[0].levels[allCardCliets.cards[0].levels.length - 1].level;
+
+      clientsListItem += `<td data-label="cdoor">${clientDoorsAndLevels}</td>`;
       
       if (allCardCliets.cards[0].expires_at == null || allCardCliets.cards[0].expires_at.length == 0) 
-        clientsListItem += `<td data-label="cexp">NO EXPIRY</td>`;
+        clientsListItem += `<td data-label="cexp">No Expiration</td>`;
       else {
         clientsListItem += `<td data-label="cexp">${allCardCliets.cards[0].expires_at}</td>`;
         
@@ -141,15 +146,13 @@ async function refreshAllClients() {
       }
 
       if (allCardCliets.is_active == 0) {
-        console.log ("is active 0: " + allClients[i].user_id);
         clientsListItem += `<td data-label="cstat">
             <div id="status-toggle-${allClients[i].user_id}" class="ui fluid label status-element">
               <div class="ui empty circular grey label" style="margin-top: 2px; float: left;"></div>
-              <p style="text-align: center;">Pending</p>
+              <p style="text-align: center;">Inactive</p>
             </div>
           </td>`;
       } else if (allCardCliets.is_active == 1) {
-        console.log ("is active 1: " + allClients[i].user_id);
         clientsListItem += `<td data-label="cstat">
             <div id="status-toggle-${allClients[i].user_id}" class="ui fluid label status-element">
               <div class="ui empty circular green label" style="margin-top: 2px; float: left;"></div>
@@ -157,8 +160,6 @@ async function refreshAllClients() {
             </div>
           </td>`;
       } else if (allCardCliets.is_active == 2) {
-        console.log ("is active 2: " + allClients[i].user_id);
-        
         clientsListItem += `<td data-label="cstat">
             <div id="status-toggle-${allClients[i].user_id}" class="ui fluid label status-element">
               <div class="ui empty circular red label" style="margin-top: 2px; float: left;"></div>
@@ -180,7 +181,6 @@ async function refreshAllClients() {
   for (let i = 0; i <= statusElements.length - 1; i++) {
     statusElements[i].addEventListener("click", () => {
       let getUserId = statusElements[i].id.toString().split("-")[2];
-      console.log(getUserId);
       statusChangeMethod(getUserId);
     });
   }
@@ -197,4 +197,52 @@ async function statusChangeMethod(userId) {
   }
 }
 
-export { refreshAllDoorsList, refreshAllLevelsList, refreshAllCardsList, refreshAllClients };
+async function refreshAllLogs() {
+  const allLogsTableContent = document.getElementById("all-logs-table-content");
+  allLogsTableContent.innerHTML = "";
+
+  let logs = await call.showAllLogs();
+  
+  for (let i = 0; i <= logs.length - 1; i++) {
+    let doorListItem;
+
+    let logDate = logs[i].logged_at.split(" ")[0];
+    let logTime = logs[i].logged_at.split(" ")[1];
+
+    doorListItem = `<tr id="${logs[i].log_id}">
+        <td data-label="log-date">${logDate}</td>
+        <td data-label="log-time">${logTime}</td>
+        <td data-label="log-cat">${logs[i].log_category.charAt(0).toUpperCase() + logs[i].log_category.slice(1)}</td>
+        <td data-label="log-msg">${logs[i].message}</td>`;
+
+    if (logs[i].severity <= 2) 
+      doorListItem += `<td data-label="log-severity">Low</td>`;
+    else if (logs[i].severity > 2 && logs[i].severity <= 4) 
+      doorListItem += `<td data-label="log-severity">Medium</td>`;
+    else if (logs[i].severity == 5) 
+      doorListItem += `<td data-label="log-severity">High</td>`;
+
+    if (logs[i].has_investigated == 0)
+      doorListItem += `<td data-label="log-reviewed"><button id="log-btn-${logs[i].log_id}" class="ui button basic fluid investigate-btn">Pending Review</button></td></tr>`;
+    else {
+      let adminUserId = logs[i].has_investigated;
+      let getAdminDetails = await call.getAllClients(adminUserId);
+      doorListItem += `<td data-label="log-reviewed">Reviewed By <b>${getAdminDetails.first_name} ${getAdminDetails.last_name}</b></td></tr>`;
+    }
+    
+    allLogsTableContent.innerHTML += doorListItem;
+  }
+
+  const investigateButtons = document.querySelectorAll(".investigate-btn");
+  for (let i = 0; i <= investigateButtons.length - 1; i++) {
+    if (investigateButtons[i]) investigateButtons[i].addEventListener("click", async () => {
+      let logId = investigateButtons[i].id.toString().split("-")[2];
+      let investigateResult = await call.investigateLog(logId, localStorage.getItem("userId"));
+      if (investigateResult.success == "true") {
+        refreshAllLogs();
+      }
+    });
+  }
+}
+
+export { refreshAllDoorsList, refreshAllLevelsList, refreshAllCardsList, refreshAllClients, refreshAllLogs };

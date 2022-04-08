@@ -7,8 +7,8 @@ function openAppWindow() {
     title: "NFC Door Access System",
     width: 800,
     height: 600,
-    minWidth: 800,
-    minHeight: 600,
+    minWidth: 1200,
+    minHeight: 960,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -16,7 +16,9 @@ function openAppWindow() {
     }
   });
 
-  // mainWindow.menuBarVisible = false;
+  mainWindow.maximize();
+
+  mainWindow.menuBarVisible = false;
   
   mainWindow.loadFile('src/login.html');
 }

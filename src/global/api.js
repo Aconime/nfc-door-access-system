@@ -15,5 +15,24 @@ const addClient = `${host.apiHost}/api/users/add`;
 const checkEmail = `${host.apiHost}/api/users/email`;
 const editClient = `${host.apiHost}/api/users/edit`;
 const editClientStatus = `${host.apiHost}/api/users/activate`;
+const allLogs = `${host.apiHost}/api/logs/all`;
+const reviewLogs = `${host.apiHost}/api/logs/investigate`;
 
-export { login, allLevels, allDoors, allCards, allClients, getClients, addDoor, editDoor, delDoor, addLevel, delLevel, addClient, checkEmail, editClient, editClientStatus};
+export { login, 
+  allLevels, 
+  allDoors, 
+  allCards, 
+  allClients, 
+  getClients, 
+  addDoor, 
+  editDoor, 
+  delDoor, 
+  addLevel, 
+  delLevel, 
+  addClient, 
+  checkEmail, 
+  editClient, 
+  editClientStatus,
+  allLogs,
+  reviewLogs
+};

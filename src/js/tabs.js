@@ -6,3 +6,6 @@ if (allCardsTabButton) allCardsTabButton.addEventListener("click", () => refresh
 const allClientsTabButton = document.getElementById("all-clients-tab-btn");
 if (allClientsTabButton) allClientsTabButton.addEventListener("click", () => refresh.refreshAllClients());
 
+const allLogsTabButton = document.getElementById("all-logs-tab-btn");
+if (allLogsTabButton) allLogsTabButton.addEventListener("click", () => refresh.refreshAllLogs());
+
