@@ -122,18 +122,18 @@ async function refreshAllClients() {
 
       let clientDoorsAndLevels = "";
 
+      for (let j = 0; j <= allCardCliets.cards[0].levels.length - 1; j++) {
+        let levels = allCardCliets.cards[0].levels[j].level;
+        clientDoorsAndLevels += levels + ", ";
+      }
+
       for (let j = 0; j <= allCardCliets.cards[0].doors.length - 1; j++) {
         let doorTag = allCardCliets.cards[0].doors[j].door_identifier.split(":")[1];
         clientDoorsAndLevels += doorTag + ", ";
       }
 
-      for (let j = 0; j <= allCardCliets.cards[0].levels.length - 2; j++) {
-        let levels = allCardCliets.cards[0].levels[j].level;
-        clientDoorsAndLevels += levels + ", ";
-      }
-
-      clientDoorsAndLevels += allCardCliets.cards[0].levels[allCardCliets.cards[0].levels.length - 1].level;
-
+      clientDoorsAndLevels = clientDoorsAndLevels.slice(0, -2);
+      
       clientsListItem += `<td data-label="cdoor">${clientDoorsAndLevels}</td>`;
       
       if (allCardCliets.cards[0].expires_at == null || allCardCliets.cards[0].expires_at.length == 0) 

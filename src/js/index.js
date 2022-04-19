@@ -64,9 +64,10 @@ function getDateFormat(formatType, formatDate=null) {
 window.onload = async () => { 
   await refresh.refreshAllClients();
 
-  localStorage.setItem("currentDate", new Date());
+  // localStorage.setItem("currentDate", new Date());
 
-  await listenForLogs();
+  // await listenForLogs();
+  console.log( localStorage.getItem('userToken'));
 }
 
 const logoutButton = document.getElementById("logout-button");
@@ -77,22 +78,22 @@ if (logoutButton) logoutButton.addEventListener("click", () => {
   })
 });
 
-async function listenForLogs() {
-  setInterval(async () => {
-    let logs = await call.showAllLogsWithParams(getDateFormat(2, localStorage.getItem("currentDate")));
-    if (logs.length != 0) {
-      $("body")
-      .toast({
-        title: "Potential Card Exploit",
-        message: logs[0].message,
-        class : "red",
-        showProgress: "bottom",
-        showIcon: "exclamation circle"
-      });
-    }
-  }, 5000);
+// async function listenForLogs() {
+//   setInterval(async () => {
+//     let logs = await call.showAllLogsWithParams(getDateFormat(2, localStorage.getItem("currentDate")));
+//     if (logs.length != 0) {
+//       $("body")
+//       .toast({
+//         title: "Potential Card Misuse",
+//         message: logs[0].message + ".",
+//         class : "red",
+//         showProgress: "bottom",
+//         showIcon: "exclamation circle"
+//       });
+//     }
+//   }, 5000);
 
-  setInterval(() => {
-    localStorage.setItem("currentDate", new Date());
-  }, 1000);
-}
+//   setInterval(() => {
+//     localStorage.setItem("currentDate", new Date());
+//   }, 1000);
+// }

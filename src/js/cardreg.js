@@ -55,7 +55,7 @@ const doorsDropDown = document.getElementById("door-selection");
 const levelsDropDown = document.getElementById("level-selection");
 
 // BUTTON(S)
-const activatePendingClientButton = document.getElementById("pedning-card-btn");
+const activatePendingClientButton = document.getElementById("pending-card-btn");
 
 // OTHER
 const tabContentTitle = document.getElementById("user-reg-title-heading");
@@ -63,7 +63,8 @@ const tabContentTitle = document.getElementById("user-reg-title-heading");
 async function reloadTabContent() {
   activateCardToClientButton.classList.remove("edit-client-mode-btn");
   activateCardToClientButton.innerHTML = `<i class="fas fa-check"></i> Activate Card`;
-  activatePendingClientButton.classList.remove("hide-element");
+  if (activatePendingClientButton.classList.contains("hide-element"))
+    activatePendingClientButton.classList.remove("hide-element");
 
   tabContentTitle.innerText = "CLIENT REGISTRATION";
 
@@ -155,6 +156,10 @@ if (activateCardToClientButton) activateCardToClientButton.addEventListener("cli
     await activateCardAndAddClient(1);
 });
 
+if (activatePendingClientButton) activatePendingClientButton.addEventListener("click", async () => {
+  await activateCardAndAddClient(0);
+});
+
 async function activateCardAndAddClient(regStatus) {
   let firstName = firstNameInput.value;
   let lastName = lastNameInput.value;
@@ -169,10 +174,12 @@ async function activateCardAndAddClient(regStatus) {
     if (standardAccessRadio.checked) {
       if (doors.length > 0 || levels.length > 0) {
         if (!noExpDate && expDate.length > 0) {
+          console.log("wtf");
           if (doors.length > 0 && levels.length == 0) {
+            console.log("door only");
             let apiReadyDoors = "";
-            for (let i = 0; i <= doors.length - 2; i++) apiReadyDoors += doors[i] + ",";
-            apiReadyDoors += doors[doors.length -1];
+            for (let i = 0; i <= doors.length - 1; i++) apiReadyDoors += doors[i] + ",";
+            apiReadyDoors = apiReadyDoors.slice(0, -1)
 
             let addClientResult = await call.addNewClientWithDoors(firstName, lastName, email, cardId, apiReadyDoors, regStatus, true, getDateFormat(1, expDate));
             if (addClientResult.success == "true") {
@@ -180,9 +187,10 @@ async function activateCardAndAddClient(regStatus) {
               modals.showOuternModal("Success", "The client has been added and a card has been registered successfuly.");
             }
           } else if (levels.length > 0 && doors.length == 0) {
+            console.log("levels only");
             let apiReadyLevels = "";
-            for (let i = 0; i <= levels - 2; i++) apiReadyLevels += levels[i] + ",";
-            apiReadyLevels += levels[levels.length -1];
+            for (let i = 0; i <= levels.length - 1; i++) apiReadyLevels += levels[i] + ",";
+            apiReadyLevels = apiReadyLevels.slice(0, -1)
 
             let addClientResult = await call.addNewClientWithLevels(firstName, lastName, email, cardId, apiReadyLevels, regStatus, true, getDateFormat(1, expDate));
             if (addClientResult.success == "true") {
@@ -191,12 +199,12 @@ async function activateCardAndAddClient(regStatus) {
             }
           } else if (levels.length > 0 && doors.length > 0) {
             let apiReadyDoors = "";
-            for (let i = 0; i <= doors.length - 2; i++) apiReadyDoors += doors[i] + ",";
-            apiReadyDoors += doors[doors.length -1];
+            for (let i = 0; i <= doors.length - 1; i++) apiReadyDoors += doors[i] + ",";
+            apiReadyDoors = apiReadyDoors.slice(0, -1);
 
             let apiReadyLevels = "";
-            for (let i = 0; i <= levels - 2; i++) apiReadyLevels += levels[i] + ",";
-            apiReadyLevels += levels[levels.length -1];
+            for (let i = 0; i <= levels.length - 1; i++) apiReadyLevels += levels[i] + ",";
+            apiReadyLevels = apiReadyLevels.slice(0, -1);
 
             let addClientResult = await call.addNewClientWithBoth(firstName, lastName, email, cardId, apiReadyDoors, apiReadyLevels, regStatus, true, getDateFormat(1, expDate));
             if (addClientResult.success == "true") {
@@ -212,8 +220,8 @@ async function activateCardAndAddClient(regStatus) {
         } else if (noExpDate) {
           if (doors.length > 0 && levels.length == 0) {
             let apiReadyDoors = "";
-            for (let i = 0; i <= doors.length - 2; i++) apiReadyDoors += doors[i] + ",";
-            apiReadyDoors += doors[doors.length -1];
+            for (let i = 0; i <= doors.length - 1; i++) apiReadyDoors += doors[i] + ",";
+            apiReadyDoors = apiReadyDoors.slice(0, -1)
 
             let addClientResult = await call.addNewClientWithDoors(firstName, lastName, email, cardId, apiReadyDoors, regStatus);
             if (addClientResult.success == "true") {
@@ -222,8 +230,8 @@ async function activateCardAndAddClient(regStatus) {
             }
           } else if (levels.length > 0 && doors.length == 0) {
             let apiReadyLevels = "";
-            for (let i = 0; i <= levels - 2; i++) apiReadyLevels += levels[i] + ",";
-            apiReadyLevels += levels[levels.length -1];
+            for (let i = 0; i <= levels.length - 1; i++) apiReadyLevels += levels[i] + ",";
+            apiReadyLevels = apiReadyLevels.slice(0, -1)
 
             let addClientResult = await call.addNewClientWithLevels(firstName, lastName, email, cardId, apiReadyLevels, regStatus);
             if (addClientResult.success == "true") {
@@ -232,12 +240,12 @@ async function activateCardAndAddClient(regStatus) {
             }
           } else if (levels.length > 0 && doors.length > 0) {
             let apiReadyDoors = "";
-            for (let i = 0; i <= doors.length - 2; i++) apiReadyDoors += doors[i] + ",";
-            apiReadyDoors += doors[doors.length -1];
+            for (let i = 0; i <= doors.length - 1; i++) apiReadyDoors += doors[i] + ",";
+            apiReadyDoors = apiReadyDoors.slice(0, -1)
 
             let apiReadyLevels = "";
-            for (let i = 0; i <= levels - 2; i++) apiReadyLevels += levels[i] + ",";
-            apiReadyLevels += levels[levels.length -1];
+            for (let i = 0; i <= levels.length - 1; i++) apiReadyLevels += levels[i] + ",";
+            apiReadyLevels = apiReadyLevels.slice(0, -1)
 
             let addClientResult = await call.addNewClientWithBoth(firstName, lastName, email, cardId, apiReadyDoors, apiReadyLevels, regStatus);
             if (addClientResult.success == "true") {
@@ -325,12 +333,14 @@ async function checkEmailAddress(email) {
       adminAccessRadio.value = true;
     }
 
-    if (userDetails.cards[0].expires_at.length != 0) {
+    if (userDetails.cards[0].expires_at != null) {
       expirationDateInput.value = getDateFormat(0, userDetails.cards[0].expires_at);
-      expirationDateCheck.value = true;
+      expirationDateInput.classList.remove("hide-element");
+      expirationDateCheck.checked = false;
     } else {
       expirationDateInput.value = "";
-      expirationDateCheck.value = false;
+      expirationDateInput.classList.add("hide-element");
+      expirationDateCheck.checked = true;
     }
 
     cardDropDown.innerHTML += `<option value="${userDetails.cards[0].card_id}">${userDetails.cards[0].uid}</option>`;
@@ -365,8 +375,8 @@ async function editCardAndClient() {
         if (!noExpDate && expDate.length > 0) {
           if (doors.length > 0 && levels.length == 0) {
             let apiReadyDoors = "";
-            for (let i = 0; i <= doors.length - 2; i++) apiReadyDoors += doors[i] + ",";
-            apiReadyDoors += doors[doors.length -1];
+            for (let i = 0; i <= doors.length - 1; i++) apiReadyDoors += doors[i] + ",";
+            apiReadyDoors = apiReadyDoors.slice(0, -1)
 
             let addClientResult = await call.editCardClientDoors(userEditId, firstName, lastName, email, cardId, 1, apiReadyDoors, true, getDateFormat(1, expDate));
             if (addClientResult.success == "true") {
@@ -375,8 +385,8 @@ async function editCardAndClient() {
             }
           } else if (levels.length > 0 && doors.length == 0) {
             let apiReadyLevels = "";
-            for (let i = 0; i <= levels - 2; i++) apiReadyLevels += levels[i] + ",";
-            apiReadyLevels += levels[levels.length -1];
+            for (let i = 0; i <= levels.length - 1; i++) apiReadyLevels += levels[i] + ",";
+            apiReadyLevels = apiReadyLevels.slice(0, -1)
 
             let addClientResult = await call.editCardClientLevels(userEditId, firstName, lastName, email, cardId, 1, apiReadyLevels, true, getDateFormat(1, expDate));
             if (addClientResult.success == "true") {
@@ -385,12 +395,12 @@ async function editCardAndClient() {
             }
           } else if (levels.length > 0 && doors.length > 0) {
             let apiReadyDoors = "";
-            for (let i = 0; i <= doors.length - 2; i++) apiReadyDoors += doors[i] + ",";
-            apiReadyDoors += doors[doors.length -1];
+            for (let i = 0; i <= doors.length - 1; i++) apiReadyDoors += doors[i] + ",";
+            apiReadyDoors = apiReadyDoors.slice(0, -1)
 
             let apiReadyLevels = "";
-            for (let i = 0; i <= levels - 2; i++) apiReadyLevels += levels[i] + ",";
-            apiReadyLevels += levels[levels.length -1];
+            for (let i = 0; i <= levels.length - 1; i++) apiReadyLevels += levels[i] + ",";
+            apiReadyLevels = apiReadyLevels.slice(0, -1)
 
             let addClientResult = await call.editCardClientBoth(userEditId, firstName, lastName, email, cardId, 1, apiReadyDoors, apiReadyLevels, true, getDateFormat(1, expDate));
             if (addClientResult.success == "true") {
@@ -406,8 +416,8 @@ async function editCardAndClient() {
         } else if (noExpDate) {
           if (doors.length > 0 && levels.length == 0) {
             let apiReadyDoors = "";
-            for (let i = 0; i <= doors.length - 2; i++) apiReadyDoors += doors[i] + ",";
-            apiReadyDoors += doors[doors.length -1];
+            for (let i = 0; i <= doors.length - 1; i++) apiReadyDoors += doors[i] + ",";
+            apiReadyDoors = apiReadyDoors.slice(0, -1)
 
             let addClientResult = await call.editCardClientDoors(userEditId, firstName, lastName, email, cardId, 1, apiReadyDoors);
             if (addClientResult.success == "true") {
@@ -416,8 +426,8 @@ async function editCardAndClient() {
             }
           } else if (levels.length > 0 && doors.length == 0) {
             let apiReadyLevels = "";
-            for (let i = 0; i <= levels - 2; i++) apiReadyLevels += levels[i] + ",";
-            apiReadyLevels += levels[levels.length -1];
+            for (let i = 0; i <= levels.length - 1; i++) apiReadyLevels += levels[i] + ",";
+            apiReadyLevels = apiReadyLevels.slice(0, -1)
 
             let addClientResult = await call.editCardClientLevels(userEditId, firstName, lastName, email, cardId, 1, apiReadyLevels);
             if (addClientResult.success == "true") {
@@ -426,12 +436,12 @@ async function editCardAndClient() {
             }
           } else if (levels.length > 0 && doors.length > 0) {
             let apiReadyDoors = "";
-            for (let i = 0; i <= doors.length - 2; i++) apiReadyDoors += doors[i] + ",";
-            apiReadyDoors += doors[doors.length -1];
+            for (let i = 0; i <= doors.length - 1; i++) apiReadyDoors += doors[i] + ",";
+            apiReadyDoors = apiReadyDoors.slice(0, -1)
 
             let apiReadyLevels = "";
-            for (let i = 0; i <= levels - 2; i++) apiReadyLevels += levels[i] + ",";
-            apiReadyLevels += levels[levels.length -1];
+            for (let i = 0; i <= levels.length - 1; i++) apiReadyLevels += levels[i] + ",";
+            apiReadyLevels = apiReadyLevels.slice(0, -1)
 
             let addClientResult = await call.editCardClientBoth(userEditId, firstName, lastName, email, cardId, 1, apiReadyDoors, apiReadyLevels);
             if (addClientResult.success == "true") {

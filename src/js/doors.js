@@ -214,8 +214,7 @@ if (deleteDoorModalButton) deleteDoorModalButton.addEventListener("click", () =>
       setTimeout(() => {
         $("#door-modal").modal('hide');
       }, 1000);
-    }
-    else 
-      modals.showInnerModal("Authentication Error", "Unable to remove this door from the list. Please try again or contact your administrator for further assistance.");
+    } else 
+      modals.showInnerModal("Could Not Delete Door", "Unable to remove this door from the list. Please try again or contact your administrator for further assistance.");
   });
 });
